@@ -23,7 +23,7 @@ RUN apt-get install -y zsh meson git gcc python-is-python3 \
                     pkg-config libglib2.0-dev libffi-dev libboost-dev \
                     autoconf automake libtool bison flex valgrind
 
-RUN git clone --recurse-submodules https://github.com/gaperez64/acacia-bonsai
+RUN git clone --recurse-submodules https://github.com/gaperez64/acacia-bonsai/tree/syntcomp25
 
 RUN cd acacia-bonsai && \
     ./self-benchmark.sh -f -b ab/syntcomp21/0s-20s -t 1
