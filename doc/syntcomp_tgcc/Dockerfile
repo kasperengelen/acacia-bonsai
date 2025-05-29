@@ -26,6 +26,6 @@ RUN apt-get install -y zsh meson git gcc python-is-python3 \
 RUN git clone --recurse-submodules https://github.com/gaperez64/acacia-bonsai
 
 RUN cd acacia-bonsai && \
-    ./self-benchmark.sh -b ab/syntcomp21/0s-20s -t 1
+    ./self-benchmark.sh -f -b ab/syntcomp21/0s-20s -t 1
 
 ENTRYPOINT ["/bin/bash"]
