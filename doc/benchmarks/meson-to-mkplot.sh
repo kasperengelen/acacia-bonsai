@@ -21,6 +21,8 @@ if (( $# == 3 )); then
   shift
 fi
 
+[[ -e $2 ]] || { echo "file not found: $2" >&2; exit 1}
+
 cat <<EOF
 {
   "stats": {  
