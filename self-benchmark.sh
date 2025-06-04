@@ -10,7 +10,7 @@ opt='-march=native -O3 -flto -fuse-linker-plugin -pipe -DNO_VERBOSE -DNDEBUG'
 declare -A confs
 
 defaults=$(<<EOF 
--DDEFAULT_K=99
+-DDEFAULT_K=255
 -DDEFAULT_KMIN=2 -DDEFAULT_KINC=3
 -DDEFAULT_UNREAL_X='UNREAL_X_BOTH'
 -DVECTOR_ELT_T='char'
