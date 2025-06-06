@@ -18,7 +18,8 @@ RUN apt-get update && \
 
 COPY binaries/* /usr/bin/
 
-RUN apt-get install -y zsh meson git gcc python-is-python3 \
+RUN apt-get update && \
+    apt-get install -y zsh meson git gcc python-is-python3 \
                     ninja-build gnupg wget python3-pip \
                     pkg-config libglib2.0-dev libffi-dev libboost-dev \
                     autoconf automake libtool bison flex valgrind
