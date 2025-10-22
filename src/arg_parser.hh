@@ -1,6 +1,8 @@
 #pragma once
 
 #include <boost/program_options.hpp>
+#include <error.h>
+#include <configuration.hh>
 
 // TODO: why is there "do while()?"
 #define debug_(A...) do { std::cout << A << std::endl; } while (0)
@@ -11,6 +13,12 @@ namespace po = boost::program_options;
  * Struct that will hold the parsed argument values.
  */
 struct ArgParseResult {
+  std::string formula;
+  bool is_file;
+  bool lbt_input;
+  bool lenient;
+
+
   bool moore_mode = false;
   std::vector<int> init_state = {};
   std::vector<std::string> inputs = {};
@@ -108,6 +116,7 @@ inline ArgParseResult arg_parser(int argc, char **argv) {
     po::store(po::parse_command_line(argc, argv, desc), vm);
 
     if (vm.count ("help")) {
+      // TODO: handle version
       std::cout << "Verify realizability for LTL specifications." << std::endl;
       std::cout << desc << std::endl;
       std::cout << "Exit status:\n"
@@ -122,6 +131,24 @@ inline ArgParseResult arg_parser(int argc, char **argv) {
     po::notify(vm);
 
     ArgParseResult retval;
+
+    // handle the formula
+    if (vm.count("formula")) {
+      retval.formula = vm["formula"].as<std::string>();
+      retval.is_file = false;
+    }
+
+    if (vm.count("file")) {
+      retval.formula = vm["file"].as<std::string>();
+      retval.is_file = true;
+    }
+
+    if (vm.count("file") and vm.count("formula")) {
+      error(3,0,"Error: cannot pass both a file and a formula.");
+    }
+
+    retval.lenient = vm["lenient"].as<bool>();
+    retval.lbt_input = vm["lbt-input"].as<bool>();
 
     // manually handle the default arguments, since that is a bit clearer...
     if (vm.count("init")) {
@@ -159,8 +186,6 @@ inline ArgParseResult arg_parser(int argc, char **argv) {
     }
 
     // TODO: handle removed arguments: workers, opt_unreal, check, "x", winreg
-    // TODO: handle "formula", "lbt-input", "file", "lenient"
-    //    -> this is currently done in some of the "common_*" files.
 
     debug_("[DEBUG] Finished parsing arguments.");
 

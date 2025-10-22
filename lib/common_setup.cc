@@ -118,73 +118,77 @@ setup(char** argv)
 }
 
 
+// TODO remove
 // argp's default behavior of offering -? for --help is just too silly.
 // I mean, come on, why not also add -* to Darwinise more shell users?
 // We disable this option as well as -V (because --version don't need
 // a short version).
-enum {
-  OPT_HELP = 1,
-  OPT_VERSION,
-};
+// enum {
+//   OPT_HELP = 1,
+//   OPT_VERSION,
+// };
 
-static const argp_option options[] =
-  {
-    { "version", OPT_VERSION, nullptr, 0, "print program version", -1 },
-    { "help", OPT_HELP, nullptr, 0, "print this help", -1 },
-    // We support --usage as a synonym for --help because argp's
-    // hardcoded error message for unknown options mentions it.
-    { "usage", OPT_HELP, nullptr, OPTION_HIDDEN, nullptr, -1 },
-    { nullptr, 0, nullptr, 0, nullptr, 0 }
-  };
+// TODO: remove
+// static const argp_option options[] =
+//   {
+//     { "version", OPT_VERSION, nullptr, 0, "print program version", -1 },
+//     { "help", OPT_HELP, nullptr, 0, "print this help", -1 },
+//     // We support --usage as a synonym for --help because argp's
+//     // hardcoded error message for unknown options mentions it.
+//     { "usage", OPT_HELP, nullptr, OPTION_HIDDEN, nullptr, -1 },
+//     { nullptr, 0, nullptr, 0, nullptr, 0 }
+//   };
 
-static const argp_option options_hidden[] =
-  {
-    { "version", OPT_VERSION, nullptr, OPTION_HIDDEN,
-      "print program version", -1 },
-    { "help", OPT_HELP, nullptr, OPTION_HIDDEN, "print this help", -1 },
-    // We support --usage as a synonym for --help because argp's
-    // hardcoded error message for unknown options mentions it.
-    { "usage", OPT_HELP, nullptr, OPTION_HIDDEN, nullptr, -1 },
-    { nullptr, 0, nullptr, 0, nullptr, 0 }
-  };
+// TODO: remove
+// static const argp_option options_hidden[] =
+//   {
+//     { "version", OPT_VERSION, nullptr, OPTION_HIDDEN,
+//       "print program version", -1 },
+//     { "help", OPT_HELP, nullptr, OPTION_HIDDEN, "print this help", -1 },
+//     // We support --usage as a synonym for --help because argp's
+//     // hardcoded error message for unknown options mentions it.
+//     { "usage", OPT_HELP, nullptr, OPTION_HIDDEN, nullptr, -1 },
+//     { nullptr, 0, nullptr, 0, nullptr, 0 }
+//   };
 
 // TODO: this will have to be removed and fully merged into the boost-based argument parser.
-static int
-parse_opt_misc(int key, char*, struct argp_state* state)
-{
-  // Called from C code, so should not raise any exception.
-  BEGIN_EXCEPTION_PROTECT;
-  // This switch is alphabetically-ordered.
-  switch (key)
-    {
-    case OPT_HELP:
-      argp_state_help(state, state->out_stream,
-                      // Do not let argp exit: we want to diagnose a
-                      // failure to print --help by closing stdout
-                      // properly.
-                      ARGP_HELP_STD_HELP & ~ARGP_HELP_EXIT_OK);
-      close_stdout();
-      exit(0);
-      break;
-    case OPT_VERSION:
-      display_version(state->out_stream, state);
-      close_stdout();
-      exit(0);
-      break;
-    default:
-      return ARGP_ERR_UNKNOWN;
-    }
-  END_EXCEPTION_PROTECT;
-  return 0;
-}
+// static int
+// parse_opt_misc(int key, char*, struct argp_state* state)
+// {
+//   // Called from C code, so should not raise any exception.
+//   BEGIN_EXCEPTION_PROTECT;
+//   // This switch is alphabetically-ordered.
+//   switch (key)
+//     {
+//     case OPT_HELP:
+//       argp_state_help(state, state->out_stream,
+//                       // Do not let argp exit: we want to diagnose a
+//                       // failure to print --help by closing stdout
+//                       // properly.
+//                       ARGP_HELP_STD_HELP & ~ARGP_HELP_EXIT_OK);
+//       close_stdout();
+//       exit(0);
+//       break;
+//     case OPT_VERSION:
+//       display_version(state->out_stream, state);
+//       close_stdout();
+//       exit(0);
+//       break;
+//     default:
+//       return ARGP_ERR_UNKNOWN;
+//     }
+//   END_EXCEPTION_PROTECT;
+//   return 0;
+// }
 
 
-const struct argp misc_argp = { options, parse_opt_misc,
-                                nullptr, nullptr, nullptr, nullptr, nullptr };
-
-const struct argp misc_argp_hidden = { options_hidden, parse_opt_misc,
-                                       nullptr, nullptr, nullptr,
-                                       nullptr, nullptr };
+// TODO remove
+// const struct argp misc_argp = { options, parse_opt_misc,
+//                                 nullptr, nullptr, nullptr, nullptr, nullptr };
+//
+// const struct argp misc_argp_hidden = { options_hidden, parse_opt_misc,
+//                                        nullptr, nullptr, nullptr,
+//                                        nullptr, nullptr };
 
 [[noreturn]] void handle_any_exception()
 {

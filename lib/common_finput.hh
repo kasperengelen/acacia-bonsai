@@ -25,6 +25,8 @@
 #include <vector>
 #include <spot/tl/parse.hh>
 
+#include "arg_parser.hh"
+
 struct job
 {
   const char* str;
@@ -36,14 +38,21 @@ struct job
   }
 };
 
+// TODO: can we touch these variables from another compilation unit? If so, we should move the process argument func.
 typedef std::vector<job> jobs_t;
 extern jobs_t jobs;
 extern bool lbt_input;
 
-extern const struct argp finput_argp;
-extern const struct argp finput_argp_headless;
+// extern const struct argp finput_argp;
+// extern const struct argp finput_argp_headless;
 
-int parse_opt_finput(int key, char* arg, struct argp_state* state);
+
+// int parse_opt_finput(int key, char* arg, struct argp_state* state);
+
+/**
+ * Temporary function to handle the "formula", "file", "lenient", and "lbt-input" arguments.
+ */
+void handle_finput_args(const ArgParseResult& arg_vals);
 
 spot::parsed_formula parse_formula(const std::string& s);
 

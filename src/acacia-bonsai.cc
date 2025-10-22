@@ -142,13 +142,13 @@ enum {
 // };
 
 // TODO: these were listed as "children" of the glib argparse thing.
-static const struct argp_child children[] = {
+// static const struct argp_child children[] = {
   // Input format
-  { &finput_argp_headless, 0, nullptr, 0 },
+  // { &finput_argp_headless, 0, nullptr, 0 }, // TODO: remove
   //{ &aoutput_o_format_argp, 0, nullptr, 0 },
-  { &misc_argp, 0, nullptr, 0 },
-  { nullptr, 0, nullptr, 0 }
-};
+  // { &misc_argp, 0, nullptr, 0 }, // TODO: remove
+  // { nullptr, 0, nullptr, 0 }
+// };
 
 // const char argp_program_doc[] = "\
 // Verify realizability for LTL specification.\v\
@@ -345,7 +345,7 @@ namespace {
 //       else if (arg == "both"sv)
 //         opt_unreal_x = UNREAL_X_BOTH;
 //       else
-//         error (3, 0, "Should specify formula, automaton, or both.");
+         // error (3, 0, "Should specify formula, automaton, or both.");
 //       break;
 //     }
 //
@@ -463,6 +463,7 @@ int main (int argc, char **argv) {
     extra_options.set ("wdba-minimize", 2);
 
     process_args_(arg_values);
+    handle_finput_args(arg_values);
     // const argp ap = {
     // options, parse_opt, nullptr,
     // argp_program_doc, children, nullptr, nullptr // TODO: this has "subordinate" parsers that handle the file and formula arguments

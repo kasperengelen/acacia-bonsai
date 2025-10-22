@@ -51,44 +51,56 @@ static const argp_option options[] =
     { nullptr, 0, nullptr, 0, nullptr, 0 }
   };
 
-const struct argp finput_argp = { options, parse_opt_finput,
-                                  nullptr, nullptr, nullptr,
-                                  nullptr, nullptr };
+// const struct argp finput_argp = { options, parse_opt_finput,
+//                                   nullptr, nullptr, nullptr,
+//                                   nullptr, nullptr };
+//
+// const struct argp finput_argp_headless = { options + 1, parse_opt_finput,
+//                                            nullptr, nullptr, nullptr,
+//                                            nullptr, nullptr };
 
-const struct argp finput_argp_headless = { options + 1, parse_opt_finput,
-                                           nullptr, nullptr, nullptr,
-                                           nullptr, nullptr };
+
+// TODO: temporary
+void handle_finput_args(const ArgParseResult& arg_vals) {
+  lbt_input = arg_vals.lbt_input;
+  lenient = arg_vals.lenient;
+  if (arg_vals.is_file) {
+    jobs.emplace_back(arg_vals.formula.c_str(), true);
+  } else {
+    jobs.emplace_back(arg_vals.formula.c_str(), false);
+  }
+}
 
 
 // TODO: merge this into the new argument parser, and handle the arguments the same way.
 //  one problem will be the global vars in this compilation unit. So there will, temporarily, have to be
 //  a "handle arg values" functions there as well.
-int
-parse_opt_finput(int key, char* arg, struct argp_state*)
-{
-  // Called from C code, so should not raise any exception.
-  BEGIN_EXCEPTION_PROTECT;
-  // This switch is alphabetically-ordered.
-  switch (key)
-    {
-    case 'f':
-      jobs.emplace_back(arg, false);
-      break;
-    case 'F':
-      jobs.emplace_back(arg, true);
-      break;
-    case OPT_LBT:
-      lbt_input = true;
-      break;
-    case OPT_LENIENT:
-      lenient = true;
-      break;
-    default:
-      return ARGP_ERR_UNKNOWN;
-    }
-  END_EXCEPTION_PROTECT;
-  return 0;
-}
+// int
+// parse_opt_finput(int key, char* arg, struct argp_state*)
+// {
+//   // Called from C code, so should not raise any exception.
+//   BEGIN_EXCEPTION_PROTECT;
+//   // This switch is alphabetically-ordered.
+//   switch (key)
+//     {
+//     case 'f':
+//       jobs.emplace_back(arg, false);
+//       break;
+//     case 'F':
+//       jobs.emplace_back(arg, true);
+//       break;
+//     case OPT_LBT:
+//       lbt_input = true;
+//       break;
+//     case OPT_LENIENT:
+//       lenient = true;
+//       break;
+//     default:
+//       return ARGP_ERR_UNKNOWN;
+//     }
+//   END_EXCEPTION_PROTECT;
+//   return 0;
+// }
 
 spot::parsed_formula
 parse_formula(const std::string& s)
