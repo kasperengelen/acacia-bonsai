@@ -20,6 +20,7 @@ struct ArgParseResult {
   unsigned int opt_Kmax = DEFAULT_K;
   unsigned int opt_Kinc = DEFAULT_KINC;
   unsigned int verbose_level = 0;
+  std::string extra_opts = "";
 };
 
 inline void process_arg_init_(const std::string& arg, ArgParseResult& result);
@@ -36,7 +37,7 @@ inline void process_arg_synth_(const std::string& arg, ArgParseResult& result);
  * @return ArgParseResult object with the argument values.
  */
 inline ArgParseResult arg_parser(int argc, char **argv) {
-  debug_("Parsing arguments.");
+  debug_("[DEBUG] Parsing arguments.");
   try {
     po::options_description desc("Allowed options");
     desc.add_options()
@@ -99,14 +100,21 @@ inline ArgParseResult arg_parser(int argc, char **argv) {
     //   ->zero_tokens(),
     ("verbose,v", po::value<int>()->default_value(0)->implicit_value(1),
       "verbose mode, can be repeated for more verbosity")
+    ("extra_opts,x", po::value<std::string>()->value_name("EXTRAS"),
+      "Extra options.")
       ;
 
     po::variables_map vm;
     po::store(po::parse_command_line(argc, argv, desc), vm);
 
     if (vm.count ("help")) {
+      std::cout << "Verify realizability for LTL specifications." << std::endl;
       std::cout << desc << std::endl;
-      return ArgParseResult(); // TODO remove
+      std::cout << "Exit status:\n"
+                    "\t0   if the input problem is realizable\n"
+                    "\t1   if the input problem is not realizable\n"
+                    "\t2   if this could not be decided\n"
+                    "\t3   if any error has been reported" << std::endl;
       exit(0);
     }
 
@@ -146,10 +154,15 @@ inline ArgParseResult arg_parser(int argc, char **argv) {
 
     retval.verbose_level += vm["verbose"].as<int>();
 
+    if (vm.count("extra_opts")) {
+      retval.extra_opts = vm["extra_opts"].as<std::string>();
+    }
+
     // TODO: handle removed arguments: workers, opt_unreal, check, "x", winreg
     // TODO: handle "formula", "lbt-input", "file", "lenient"
+    //    -> this is currently done in some of the "common_*" files.
 
-    debug_("Finished parsing arguments.");
+    debug_("[DEBUG] Finished parsing arguments.");
 
     return retval;
 
