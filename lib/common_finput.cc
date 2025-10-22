@@ -60,6 +60,9 @@ const struct argp finput_argp_headless = { options + 1, parse_opt_finput,
                                            nullptr, nullptr };
 
 
+// TODO: merge this into the new argument parser, and handle the arguments the same way.
+//  one problem will be the global vars in this compilation unit. So there will, temporarily, have to be
+//  a "handle arg values" functions there as well.
 int
 parse_opt_finput(int key, char* arg, struct argp_state*)
 {

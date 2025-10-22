@@ -148,6 +148,7 @@ static const argp_option options_hidden[] =
     { nullptr, 0, nullptr, 0, nullptr, 0 }
   };
 
+// TODO: this will have to be removed and fully merged into the boost-based argument parser.
 static int
 parse_opt_misc(int key, char*, struct argp_state* state)
 {

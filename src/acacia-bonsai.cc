@@ -464,8 +464,8 @@ int main (int argc, char **argv) {
 
     process_args_(arg_values);
     // const argp ap = {
-    //   options, parse_opt, nullptr,
-    //   argp_program_doc, children, nullptr, nullptr // TODO: this has "subordinate" parsers that handle the file and formula arguments
+    // options, parse_opt, nullptr,
+    // argp_program_doc, children, nullptr, nullptr // TODO: this has "subordinate" parsers that handle the file and formula arguments
     // };
 
     // if (int err = argp_parse (&ap, argc, argv, ARGP_NO_HELP, nullptr, nullptr))
