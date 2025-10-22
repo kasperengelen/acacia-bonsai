@@ -50,33 +50,35 @@ inline ArgParseResult arg_parser(int argc, char **argv) {
       "comma-separated state vector to use as initial state")
     ("ins,i", po::value<std::string>()->value_name("PROPS"),
       "comma-separated list of uncontrollable (a.k.a. input) atomic propositions")
-    ("workers,j", po::value<std::string>()->value_name("VAL"),
-      "Number of parallel workers for composition")
+    // ("workers,j", po::value<std::string>()->value_name("VAL"),
+    //   "Number of parallel workers for composition")
     ("outs,o", po::value<std::string>()->value_name("PROPS"),
       "comma-separated list of controllable (a.k.a. output) atomic propositions")
     ("synth,S", po::value<std::string>()->value_name("FILENAME"),
       "enable synthesis, pass .aag filename, or - to print gates")
-    ("winreg,W", po::value<std::string>()->value_name("FILENAME"),
-      "output winning region, pass .aag filename, or - to print gates")
+    // ("winreg,W", po::value<std::string>()->value_name("FILENAME"),
+    //   "output winning region, pass .aag filename, or - to print gates")
 
-    // fine tuning
+    // parameters of the synth algo
     ("Kinc,I", po::value<std::string>()->value_name("VAL"),
-      "increment value for K, used when Kmin < K")
-    ("K", po::value<std::string>()->value_name("VAL"),
+      "increment value for K, used when Kmin < Kmax")
+    ("Kmax", po::value<std::string>()->value_name("VAL"),
       "final value of K, or unique value if Kmin is not specified")
-    ("Kmin,M", po::value<std::string>()->value_name("VAL"),
+    ("Kstart,M", po::value<std::string>()->value_name("VAL"),
       "starting value of K; Kinc MUST be set when using "
                              "this option")
-    ("unreal-x,u", po::value<std::string>()->value_name("[formula|automaton|both]"),
+
+    ("unreal-x,u", po::value<std::string>()->value_name("[formula|automaton]"),
       "for unrealizability, either add X's to outputs in "
                              "the input formula, or push outputs one transition "
-                             "forward in the automaton; with 'both', two "
-                             "processes are started, one for each option "
-                             "(default: both).")
+                             "forward in the automaton.")
+
+    ("moore", po::bool_switch()->default_value(false),
+      "synthesise a Moore machine, if not specified a mealy machine will be symthesised.")
 
     // output options
-    ("check,c", po::value<std::string>()->value_name("[real|unreal|both]"),
-      "either check for real, unreal, or both")
+    // ("check,c", po::value<std::string>()->value_name("[real|unreal|both]"),
+    //   "either check for real, unreal, or both")
     // NOTE: this weird construction such that "verbose" can be specified multiple times
     ("verbose,v", po::value<std::vector<bool>>()
       ->default_value(std::vector<bool>(), "false")
