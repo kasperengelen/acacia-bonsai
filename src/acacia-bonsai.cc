@@ -439,8 +439,15 @@ void process_args_(const ArgParseResult& arg_vals) {
   if (not arg_vals.extra_opts.empty()) {
     extra_options.parse_options (arg_vals.extra_opts.c_str());
   }
-}
 
+  lbt_input = arg_vals.lbt_input;
+  lenient = arg_vals.lenient;
+  if (arg_vals.is_file) {
+    jobs.emplace_back(arg_vals.formula.c_str(), true);
+  } else {
+    jobs.emplace_back(arg_vals.formula.c_str(), false);
+  }
+}
 
 int main (int argc, char **argv) {
 
@@ -463,7 +470,7 @@ int main (int argc, char **argv) {
     extra_options.set ("wdba-minimize", 2);
 
     process_args_(arg_values);
-    handle_finput_args(arg_values);
+    // handle_finput_args(arg_values);
     // const argp ap = {
     // options, parse_opt, nullptr,
     // argp_program_doc, children, nullptr, nullptr // TODO: this has "subordinate" parsers that handle the file and formula arguments

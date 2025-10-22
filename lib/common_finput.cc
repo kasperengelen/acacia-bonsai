@@ -33,24 +33,27 @@ enum {
 
 jobs_t jobs;
 bool lbt_input = false;
-static bool lenient = false;
+// static bool lenient = false;
+bool lenient = false; // TODO: this was changed to make this var accessible from the outside, might break things
 
-static const argp_option options[] =
-  {
-    { nullptr, 0, nullptr, 0, "Input options:", 1 },
-    { "formula", 'f', "STRING", 0, "process the formula STRING", 0 },
-    { "file", 'F', "FILENAME[/COL]", 0,
-      "process each line of FILENAME as a formula; if COL is a "
-      "positive integer, assume a CSV file and read column COL; use "
-      "a negative COL to drop the first line of the CSV file", 0 },
-    { "lbt-input", OPT_LBT, nullptr, 0,
-      "read all formulas using LBT's prefix syntax", 0 },
-    { "lenient", OPT_LENIENT, nullptr, 0,
-      "parenthesized blocks that cannot be parsed as subformulas "
-      "are considered as atomic properties", 0 },
-    { nullptr, 0, nullptr, 0, nullptr, 0 }
-  };
+// TODO: remove
+// static const argp_option options[] =
+//   {
+//     { nullptr, 0, nullptr, 0, "Input options:", 1 },
+//     { "formula", 'f', "STRING", 0, "process the formula STRING", 0 },
+//     { "file", 'F', "FILENAME[/COL]", 0,
+//       "process each line of FILENAME as a formula; if COL is a "
+//       "positive integer, assume a CSV file and read column COL; use "
+//       "a negative COL to drop the first line of the CSV file", 0 },
+//     { "lbt-input", OPT_LBT, nullptr, 0,
+//       "read all formulas using LBT's prefix syntax", 0 },
+//     { "lenient", OPT_LENIENT, nullptr, 0,
+//       "parenthesized blocks that cannot be parsed as subformulas "
+//       "are considered as atomic properties", 0 },
+//     { nullptr, 0, nullptr, 0, nullptr, 0 }
+//   };
 
+// TODO: remove
 // const struct argp finput_argp = { options, parse_opt_finput,
 //                                   nullptr, nullptr, nullptr,
 //                                   nullptr, nullptr };
@@ -61,15 +64,15 @@ static const argp_option options[] =
 
 
 // TODO: temporary
-void handle_finput_args(const ArgParseResult& arg_vals) {
-  lbt_input = arg_vals.lbt_input;
-  lenient = arg_vals.lenient;
-  if (arg_vals.is_file) {
-    jobs.emplace_back(arg_vals.formula.c_str(), true);
-  } else {
-    jobs.emplace_back(arg_vals.formula.c_str(), false);
-  }
-}
+// void handle_finput_args(const ArgParseResult& arg_vals) {
+//   lbt_input = arg_vals.lbt_input;
+//   lenient = arg_vals.lenient;
+//   if (arg_vals.is_file) {
+//     jobs.emplace_back(arg_vals.formula.c_str(), true);
+//   } else {
+//     jobs.emplace_back(arg_vals.formula.c_str(), false);
+//   }
+// }
 
 
 // TODO: merge this into the new argument parser, and handle the arguments the same way.

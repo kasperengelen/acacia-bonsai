@@ -42,6 +42,7 @@ struct job
 typedef std::vector<job> jobs_t;
 extern jobs_t jobs;
 extern bool lbt_input;
+extern bool lenient; // TODO: this was changed to make this var accessible from the outside, might break things
 
 // extern const struct argp finput_argp;
 // extern const struct argp finput_argp_headless;
@@ -51,8 +52,9 @@ extern bool lbt_input;
 
 /**
  * Temporary function to handle the "formula", "file", "lenient", and "lbt-input" arguments.
+ * TODO
  */
-void handle_finput_args(const ArgParseResult& arg_vals);
+// void handle_finput_args(const ArgParseResult& arg_vals);
 
 spot::parsed_formula parse_formula(const std::string& s);
 
