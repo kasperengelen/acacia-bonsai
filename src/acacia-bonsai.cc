@@ -106,17 +106,38 @@ namespace {
       std::vector<std::string> input_aps_;
       std::vector<std::string> output_aps_;
       std::vector<spot::formula> formulas;
-
       spot::bdd_dict_ptr dict;
+      std::string synth_fname_;
+      std::string winreg_fname_;
+      bool check_real_;
+      unreal_x_t opt_unreal_x_;
+      int workers_;
+      unsigned opt_K_;
+      unsigned opt_Kmin_;
+      unsigned opt_Kinc_;
+      std::vector<int> init_state_;
+
 
     public:
 
       ltl_processor (spot::translator &trans,
                      std::vector<std::string> input_aps_,
                      std::vector<std::string> output_aps_,
-                     spot::bdd_dict_ptr dict_)
-        : trans_ (trans), input_aps_ (input_aps_), output_aps_ (output_aps_), dict (dict_) {
-      }
+                     spot::bdd_dict_ptr dict_,
+                     std::string synth_fname_,
+                     std::string winreg_fname_,
+                     bool check_real_,
+                     unreal_x_t opt_unreal_x_,
+                     int workers_,
+                     unsigned opt_K_,
+                     unsigned opt_Kmin_,
+                     unsigned opt_Kinc_,
+                     std::vector<int> init_state_)
+        : trans_ (trans), input_aps_ (input_aps_), output_aps_ (output_aps_), dict (dict_),
+          synth_fname_(synth_fname_), winreg_fname_(winreg_fname_), check_real_(check_real_),
+          opt_unreal_x_(opt_unreal_x_), workers_(workers_), opt_K_(opt_K_), opt_Kmin_(opt_Kmin_),
+          opt_Kinc_(opt_Kinc_), init_state_(init_state_)
+      {}
 
       int process_formula (spot::formula f, const char *, int) override {
         formulas.push_back (f);
@@ -145,12 +166,12 @@ namespace {
           all_outputs &= bdd_ithvar (v);
         }
 
-        composition_mt composer (opt_K, opt_Kmin, opt_Kinc, dict, trans_, all_inputs, all_outputs, input_aps_, output_aps_,
-                                 init_state);
+        composition_mt composer (opt_K_, opt_Kmin_, opt_Kinc_, dict, trans_, all_inputs, all_outputs, input_aps_, output_aps_,
+                                 init_state_);
 
         if (formulas.size () == 1) {
           // one formula: don't make subprocesses, do everything here by calling the functions directly
-          return composer.run_one (formulas[0], synth_fname, winreg_fname, check_real, opt_unreal_x);
+          return composer.run_one (formulas[0], synth_fname_, winreg_fname_, check_real_, opt_unreal_x_);
         }
 
         // NOTE: Everything after this point plays a role
@@ -160,12 +181,12 @@ namespace {
           return 0;
         }
 
-        if (init_state.size () > 0) {
+        if (init_state_.size () > 0) {
           utils::vout << "Error: can't do composition with given initial state!\n";
           return 0;
         }
 
-        if (opt_Kinc != 0) {
+        if (opt_Kinc_ != 0) {
           utils::vout << "Error: can't do composition with incrementing K values!\n";
           return 0;
         }
@@ -174,7 +195,7 @@ namespace {
           composer.add_formula (f);
         }
 
-        return composer.run (workers, synth_fname, winreg_fname);
+        return composer.run (workers_, synth_fname_, winreg_fname_);
       }
 
       ~ltl_processor () override {
@@ -256,22 +277,26 @@ int main (int argc, char **argv) {
 
     check_no_formula ();
 
-    // Setup the dictionary now, so that BuDDy's initialization is
-    // not measured in our timings.
-    spot::bdd_dict_ptr dict = spot::make_bdd_dict ();
-    spot::translator trans (dict, &extra_options);
-    ltl_processor processor (trans, input_aps, output_aps, dict);
-
-    // Diagnose unused -x options
-    extra_options.report_unused_options ();
-
     // Adjust the value of K
+    // TODO: move this upwards. By afterwards adjusting the KMIN global variable, this influenced the behaviour of various async code.
     if (opt_Kmin == -1u)
       opt_Kmin = opt_K;
     if (opt_Kmin > opt_K or (opt_Kmin < opt_K and opt_Kinc == 0))
       error (3, 0, "Incompatible values for K, Kmin, and Kinc.");
     if (opt_Kmin == 0)
       opt_Kmin = opt_K;
+
+    // Setup the dictionary now, so that BuDDy's initialization is
+    // not measured in our timings.
+    spot::bdd_dict_ptr dict = spot::make_bdd_dict ();
+    spot::translator trans (dict, &extra_options);
+    ltl_processor processor (trans, input_aps, output_aps, dict, synth_fname, winreg_fname, check_real,
+      opt_unreal_x, workers, opt_K, opt_Kmin, opt_Kinc, init_state);
+
+    // Diagnose unused -x options
+    extra_options.report_unused_options ();
+
+
 
     const auto start_proc = [&] (bool real, unreal_x_t unreal_x) {
       if (fork () == 0) {
