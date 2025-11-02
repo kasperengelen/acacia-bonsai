@@ -99,6 +99,7 @@ size_t posets::vectors::bitset_threshold = 0;
 
 namespace {
 
+  // TODO: remove this class
   class ltl_processor final : public job_processor {
     private:
       spot::translator &trans_;
@@ -135,11 +136,11 @@ namespace {
         bdd all_inputs = bddtrue;
         bdd all_outputs = bddtrue;
 
-        for(std::string ap: input_aps) {
+        for(std::string ap: input_aps_) {
           unsigned v = dict->register_proposition (spot::formula::ap (ap), this);
           all_inputs &= bdd_ithvar (v);
         }
-        for(std::string ap: output_aps) {
+        for(std::string ap: output_aps_) {
           unsigned v = dict->register_proposition (spot::formula::ap (ap), this);
           all_outputs &= bdd_ithvar (v);
         }
