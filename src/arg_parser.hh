@@ -115,7 +115,7 @@ inline ArgParseResult arg_parser(int argc, char **argv) {
     po::variables_map vm;
     po::store(po::parse_command_line(argc, argv, desc), vm);
 
-    if (vm.count ("help")) {
+    if (vm.contains ("help")) {
       std::cout << "Verify realizability for LTL specifications." << std::endl;
       std::cout << desc << std::endl;
       std::cout << "Exit status:\n"
@@ -132,17 +132,17 @@ inline ArgParseResult arg_parser(int argc, char **argv) {
     ArgParseResult retval;
 
     // handle the formula
-    if (vm.count("formula")) {
+    if (vm.contains("formula")) {
       retval.formula = vm["formula"].as<std::string>();
       retval.is_file = false;
     }
 
-    if (vm.count("file")) {
+    if (vm.contains("file")) {
       retval.formula = vm["file"].as<std::string>();
       retval.is_file = true;
     }
 
-    if (vm.count("file") and vm.count("formula")) {
+    if (vm.contains("file") and vm.contains("formula")) {
       error(3,0,"Error: cannot pass both a file and a formula.");
     }
 
@@ -150,22 +150,22 @@ inline ArgParseResult arg_parser(int argc, char **argv) {
     retval.lbt_input = vm["lbt-input"].as<bool>();
 
     // manually handle the default arguments, since that is a bit clearer...
-    if (vm.count("init")) {
+    if (vm.contains("init")) {
       process_arg_init_(vm["init"].as<std::string>(), retval);
     }
 
     process_arg_input_(vm["inputs"].as<std::string>(), retval);
     process_arg_output_(vm["outputs"].as<std::string>(), retval);
 
-    if (vm.count("synth")) {
+    if (vm.contains("synth")) {
       process_arg_synth_(vm["synth"].as<std::string>(), retval);
     }
 
-    if (vm.count("Kmax")) {
+    if (vm.contains("Kmax")) {
       retval.opt_Kmax = vm["Kmax"].as<unsigned int>();
     }
 
-    if (vm.count("Kstart")) {
+    if (vm.contains("Kstart")) {
       if (vm.count("Kinc") < 0) {
         error(3, 0, "Error: if 'Kmin' is specified, then 'Kinc' also must be provided.");
       }
@@ -174,7 +174,7 @@ inline ArgParseResult arg_parser(int argc, char **argv) {
       retval.opt_Kstart = vm["Kstart"].as<unsigned int>();
     }
 
-    if (vm.count("moore")) {
+    if (vm.contains("moore")) {
       retval.moore_mode = true;
     }
 
