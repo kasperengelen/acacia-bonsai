@@ -4,7 +4,7 @@
 #include <error.h>
 #include <configuration.hh>
 
-// TODO: why is there "do while()?"
+// NOTE: the do...while is a macro trick to prevent this from being a compound statement.
 #define debug_(A...) do { std::cout << A << std::endl; } while (0)
 
 namespace po = boost::program_options;
@@ -68,7 +68,7 @@ inline ArgParseResult arg_parser(int argc, char **argv) {
     // input options
     ("init,0", po::value<std::string>()->value_name("STATE"),
       "comma-separated state vector to use as initial state")
-    // TODO: Should these be changed from multiple props to a single one?
+
     ("inputs,i", po::value<std::string>()->required()->value_name("PROPS"),
       "comma-separated list of uncontrollable (a.k.a. input) atomic propositions")
     // ("workers,j", po::value<std::string>()->value_name("VAL"),
@@ -116,7 +116,6 @@ inline ArgParseResult arg_parser(int argc, char **argv) {
     po::store(po::parse_command_line(argc, argv, desc), vm);
 
     if (vm.count ("help")) {
-      // TODO: handle version
       std::cout << "Verify realizability for LTL specifications." << std::endl;
       std::cout << desc << std::endl;
       std::cout << "Exit status:\n"
@@ -185,7 +184,7 @@ inline ArgParseResult arg_parser(int argc, char **argv) {
       retval.extra_opts = vm["extra_opts"].as<std::string>();
     }
 
-    // TODO: handle removed arguments: workers, opt_unreal, check, "x", winreg
+    // TODO: handle removed arguments: workers, opt_unreal, check, winreg
 
     debug_("[DEBUG] Finished parsing arguments.");
 
