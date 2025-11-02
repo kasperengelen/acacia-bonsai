@@ -176,7 +176,7 @@ namespace {
 
         // NOTE: Everything after this point plays a role
         // ONLY if there is MORE THAN ONE LTL formula
-        if (!check_real) {
+        if (!check_real_) {
           utils::vout << "Error: can't do composition for unrealizability!\n";
           return 0;
         }
