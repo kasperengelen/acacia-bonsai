@@ -40,6 +40,7 @@
 #include <spot/twaalgos/stutter.hh>
 #include <spot/twaalgos/isdet.hh>
 
+
 automaton_format_t automaton_format = Hoa;
 static const char* automaton_format_opt = nullptr;
 const char* opt_name = nullptr;

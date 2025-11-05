@@ -23,9 +23,9 @@
 #include <spot/twaalgos/postproc.hh>
 #include <argp.h>
 
-extern const struct argp post_argp;          // postprocessing enabled
-extern const struct argp post_argp_disabled; // postprocessing disabled
-extern const struct argp post_argp_nooutput; // no output option
+// extern const struct argp post_argp;          // postprocessing enabled
+// extern const struct argp post_argp_disabled; // postprocessing disabled
+// extern const struct argp post_argp_nooutput; // no output option
 
 extern spot::postprocessor::output_type type;
 extern spot::postprocessor::output_pref pref;
