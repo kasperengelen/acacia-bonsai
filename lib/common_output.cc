@@ -305,54 +305,54 @@ static std::ostringstream outputname;
 static formula_printer* outputnamer = nullptr;
 static std::map<std::string, std::unique_ptr<output_file>> outputfiles;
 
-int
-parse_opt_output(int key, char* arg, struct argp_state*)
-{
-  // Called from C code, so should not raise any exception.
-  BEGIN_EXCEPTION_PROTECT;
-  // This switch is alphabetically-ordered.
-  switch (key)
-    {
-    case '0':
-      output_terminator = 0;
-      break;
-    case '8':
-      output_format = utf8_output;
-      break;
-    case 'l':
-      output_format = lbt_output;
-      break;
-    case 'o':
-      outputnamer = new formula_printer(outputname, arg);
-      break;
-    case 'p':
-      full_parenth = true;
-      break;
-    case 's':
-      output_format = spin_output;
-      break;
-    case OPT_CSV:
-      escape_csv = true;
-      break;
-    case OPT_LATEX:
-      output_format = latex_output;
-      break;
-    case OPT_SPOT:
-      output_format = spot_output;
-      break;
-    case OPT_WRING:
-      output_format = wring_output;
-      break;
-    case OPT_FORMAT:
-      delete format;
-      format = new formula_printer(std::cout, arg);
-      break;
-    default:
-      return ARGP_ERR_UNKNOWN;
-    }
-  END_EXCEPTION_PROTECT;
-  return 0;
-}
+// int
+// parse_opt_output(int key, char* arg, struct argp_state*)
+// {
+//   // Called from C code, so should not raise any exception.
+//   BEGIN_EXCEPTION_PROTECT;
+//   // This switch is alphabetically-ordered.
+//   switch (key)
+//     {
+//     case '0':
+//       output_terminator = 0;
+//       break;
+//     case '8':
+//       output_format = utf8_output;
+//       break;
+//     case 'l':
+//       output_format = lbt_output;
+//       break;
+//     case 'o':
+//       outputnamer = new formula_printer(outputname, arg);
+//       break;
+//     case 'p':
+//       full_parenth = true;
+//       break;
+//     case 's':
+//       output_format = spin_output;
+//       break;
+//     case OPT_CSV:
+//       escape_csv = true;
+//       break;
+//     case OPT_LATEX:
+//       output_format = latex_output;
+//       break;
+//     case OPT_SPOT:
+//       output_format = spot_output;
+//       break;
+//     case OPT_WRING:
+//       output_format = wring_output;
+//       break;
+//     case OPT_FORMAT:
+//       delete format;
+//       format = new formula_printer(std::cout, arg);
+//       break;
+//     default:
+//       return ARGP_ERR_UNKNOWN;
+//     }
+//   END_EXCEPTION_PROTECT;
+//   return 0;
+// }
 
 
 static void
