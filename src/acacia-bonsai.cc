@@ -11,9 +11,6 @@
 
 #include <boost/algorithm/string.hpp>
 
-// #include "common_aoutput.hh"
-// #include <fstream>
-
 #include "k-bounded_safety_aut.hh"
 
 #include "arg_parser.hh"
@@ -47,6 +44,9 @@
 #include <spot/twaalgos/split.hh>
 #include <spot/twaalgos/toparity.hh>
 #include <spot/twaalgos/hoa.hh>
+
+
+#include "common_setup.hh"
 
 using namespace std::literals;
 
@@ -139,6 +139,8 @@ void process_args_(const ArgParseResult& arg_vals) {
     jobs.emplace_back(arg_vals.formula.c_str(), false);
   }
 }
+
+
 
 int main (int argc, char **argv) {
 
