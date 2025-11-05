@@ -21,7 +21,6 @@
 
 #include <iosfwd>
 #include <fstream>
-#include <error.h>
 
 class output_file
 {
