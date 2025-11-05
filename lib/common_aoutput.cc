@@ -114,100 +114,100 @@ enum {
   OPT_CHECK,
 };
 
-static const argp_option options[] =
-  {
-    /**************************************************/
-    { nullptr, 0, nullptr, 0, "Output format:", 3 },
-    { "dot", 'd',
-      "1|a|A|b|B|c|C(COLOR)|e|E|f(FONT)|h|k|K|n|N|o|r|R|s|t|u|v|y|+INT|<INT|#",
-      OPTION_ARG_OPTIONAL,
-      "GraphViz's format.  Add letters for "
-      "(1) force numbered states, "
-      "(a) show acceptance condition (default), "
-      "(A) hide acceptance condition, "
-      "(b) acceptance sets as bullets, "
-      "(B) bullets except for Büchi/co-Büchi automata, "
-      "(c) force circular nodes, "
-      "(C) color nodes with COLOR, "
-      "(d) show origins when known, "
-      "(e) force elliptic nodes, "
-      "(E) force rEctangular nodes, "
-      "(f(FONT)) use FONT, "
-      "(g) hide edge labels, "
-      "(h) horizontal layout, "
-      "(k) use state labels when possible, "
-      "(K) use transition labels (default), "
-      "(n) show name, "
-      "(N) hide name, "
-      "(o) ordered transitions, "
-      "(r) rainbow colors for acceptance sets, "
-      "(R) color acceptance sets by Inf/Fin, "
-      "(s) with SCCs, "
-      "(t) force transition-based acceptance, "
-      "(u) hide true states, "
-      "(v) vertical layout, "
-      "(y) split universal edges by color, "
-      "(+INT) add INT to all set numbers, "
-      "(<INT) display at most INT states, "
-      "(#) show internal edge numbers", 0 },
-    { "hoaf", 'H', "1.1|i|k|l|m|s|t|v", OPTION_ARG_OPTIONAL,
-      "Output the automaton in HOA format (default).  Add letters to select "
-      "(1.1) version 1.1 of the format, "
-      "(i) use implicit labels for complete deterministic automata, "
-      "(s) prefer state-based acceptance when possible [default], "
-      "(t) force transition-based acceptance, "
-      "(m) mix state and transition-based acceptance, "
-      "(k) use state labels when possible, "
-      "(l) single-line output, "
-      "(v) verbose properties", 0 },
-    { "lbtt", OPT_LBTT, "t", OPTION_ARG_OPTIONAL,
-      "LBTT's format (add =t to force transition-based acceptance even"
-      " on Büchi automata)", 0 },
-    { "name", OPT_NAME, "FORMAT", 0,
-      "set the name of the output automaton", 0 },
-    { "output", 'o', "FORMAT", 0,
-      "send output to a file named FORMAT instead of standard output.  The"
-      " first automaton sent to a file truncates it unless FORMAT starts"
-      " with '>>'.", 0 },
-    { "quiet", 'q', nullptr, 0, "suppress all normal output", 0 },
-    { "spin", 's', "6|c", OPTION_ARG_OPTIONAL, "Spin neverclaim (implies --ba)."
-      "  Add letters to select (6) Spin's 6.2.4 style, (c) comments on states",
-      0 },
-    { "utf8", '8', nullptr, 0, "enable UTF-8 characters in output "
-      "(ignored with --lbtt or --spin)", 0 },
-    { "stats", OPT_STATS, "FORMAT", 0,
-      "output statistics about the automaton", 0 },
-    { "format", 0, nullptr, OPTION_ALIAS, nullptr, 0 },
-    { "check", OPT_CHECK, "PROP", OPTION_ARG_OPTIONAL,
-      "test for the additional property PROP and output the result "
-      "in the HOA format (implies -H).  PROP may be some prefix of "
-      "'all' (default), 'unambiguous', 'stutter-invariant', "
-      "'stutter-sensitive-example', 'semi-determinism', or 'strength'.",
-      0 },
-    { nullptr, 0, nullptr, 0, nullptr, 0 }
-  };
+// static const argp_option options[] =
+//   {
+//     /**************************************************/
+//     { nullptr, 0, nullptr, 0, "Output format:", 3 },
+//     { "dot", 'd',
+//       "1|a|A|b|B|c|C(COLOR)|e|E|f(FONT)|h|k|K|n|N|o|r|R|s|t|u|v|y|+INT|<INT|#",
+//       OPTION_ARG_OPTIONAL,
+//       "GraphViz's format.  Add letters for "
+//       "(1) force numbered states, "
+//       "(a) show acceptance condition (default), "
+//       "(A) hide acceptance condition, "
+//       "(b) acceptance sets as bullets, "
+//       "(B) bullets except for Büchi/co-Büchi automata, "
+//       "(c) force circular nodes, "
+//       "(C) color nodes with COLOR, "
+//       "(d) show origins when known, "
+//       "(e) force elliptic nodes, "
+//       "(E) force rEctangular nodes, "
+//       "(f(FONT)) use FONT, "
+//       "(g) hide edge labels, "
+//       "(h) horizontal layout, "
+//       "(k) use state labels when possible, "
+//       "(K) use transition labels (default), "
+//       "(n) show name, "
+//       "(N) hide name, "
+//       "(o) ordered transitions, "
+//       "(r) rainbow colors for acceptance sets, "
+//       "(R) color acceptance sets by Inf/Fin, "
+//       "(s) with SCCs, "
+//       "(t) force transition-based acceptance, "
+//       "(u) hide true states, "
+//       "(v) vertical layout, "
+//       "(y) split universal edges by color, "
+//       "(+INT) add INT to all set numbers, "
+//       "(<INT) display at most INT states, "
+//       "(#) show internal edge numbers", 0 },
+//     { "hoaf", 'H', "1.1|i|k|l|m|s|t|v", OPTION_ARG_OPTIONAL,
+//       "Output the automaton in HOA format (default).  Add letters to select "
+//       "(1.1) version 1.1 of the format, "
+//       "(i) use implicit labels for complete deterministic automata, "
+//       "(s) prefer state-based acceptance when possible [default], "
+//       "(t) force transition-based acceptance, "
+//       "(m) mix state and transition-based acceptance, "
+//       "(k) use state labels when possible, "
+//       "(l) single-line output, "
+//       "(v) verbose properties", 0 },
+//     { "lbtt", OPT_LBTT, "t", OPTION_ARG_OPTIONAL,
+//       "LBTT's format (add =t to force transition-based acceptance even"
+//       " on Büchi automata)", 0 },
+//     { "name", OPT_NAME, "FORMAT", 0,
+//       "set the name of the output automaton", 0 },
+//     { "output", 'o', "FORMAT", 0,
+//       "send output to a file named FORMAT instead of standard output.  The"
+//       " first automaton sent to a file truncates it unless FORMAT starts"
+//       " with '>>'.", 0 },
+//     { "quiet", 'q', nullptr, 0, "suppress all normal output", 0 },
+//     { "spin", 's', "6|c", OPTION_ARG_OPTIONAL, "Spin neverclaim (implies --ba)."
+//       "  Add letters to select (6) Spin's 6.2.4 style, (c) comments on states",
+//       0 },
+//     { "utf8", '8', nullptr, 0, "enable UTF-8 characters in output "
+//       "(ignored with --lbtt or --spin)", 0 },
+//     { "stats", OPT_STATS, "FORMAT", 0,
+//       "output statistics about the automaton", 0 },
+//     { "format", 0, nullptr, OPTION_ALIAS, nullptr, 0 },
+//     { "check", OPT_CHECK, "PROP", OPTION_ARG_OPTIONAL,
+//       "test for the additional property PROP and output the result "
+//       "in the HOA format (implies -H).  PROP may be some prefix of "
+//       "'all' (default), 'unambiguous', 'stutter-invariant', "
+//       "'stutter-sensitive-example', 'semi-determinism', or 'strength'.",
+//       0 },
+//     { nullptr, 0, nullptr, 0, nullptr, 0 }
+//   };
 
 // const struct argp aoutput_argp = { options, parse_opt_aoutput, nullptr, nullptr,
 //                                    nullptr, nullptr, nullptr };
 
 // Those can be overridden by individual tools. E.g. randaut has no
 // notion of input file, so %F and %L represent something else.
-char F_doc[32] = "name of the input file";
-char L_doc[32] = "location in the input file";
-
-#define doc_g                                                           \
-      "acceptance condition (in HOA syntax); add brackets to print "    \
-      "an acceptance name instead and LETTERS to tweak the format: "    \
-      "(0) no parameters, "                                             \
-      "(a) accentuated, "                                               \
-      "(b) abbreviated, "                                               \
-      "(d) style used in dot output, "                                  \
-      "(g) no generalized parameter, "                                  \
-      "(l) recognize Street-like and Rabin-like, "                      \
-      "(m) no main parameter, "                                         \
-      "(p) no parity parameter, "                                       \
-      "(o) name unknown acceptance as 'other', "                        \
-      "(s) shorthand for 'lo0'."
+// char F_doc[32] = "name of the input file";
+// char L_doc[32] = "location in the input file";
+//
+// #define doc_g                                                           \
+//       "acceptance condition (in HOA syntax); add brackets to print "    \
+//       "an acceptance name instead and LETTERS to tweak the format: "    \
+//       "(0) no parameters, "                                             \
+//       "(a) accentuated, "                                               \
+//       "(b) abbreviated, "                                               \
+//       "(d) style used in dot output, "                                  \
+//       "(g) no generalized parameter, "                                  \
+//       "(l) recognize Street-like and Rabin-like, "                      \
+//       "(m) no main parameter, "                                         \
+//       "(p) no parity parameter, "                                       \
+//       "(o) name unknown acceptance as 'other', "                        \
+//       "(s) shorthand for 'lo0'."
 
 
 // static const argp_option io_options[] =
