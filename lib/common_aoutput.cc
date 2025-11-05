@@ -210,126 +210,126 @@ char L_doc[32] = "location in the input file";
       "(s) shorthand for 'lo0'."
 
 
-static const argp_option io_options[] =
-  {
-    /**************************************************/
-    { nullptr, 0, nullptr, 0, "Any FORMAT string may use "\
-      "the following interpreted sequences (capitals for input,"
-      " minuscules for output):", 4 },
-    { "%F", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE, F_doc, 0 },
-    { "%L", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE, L_doc, 0 },
-    { "%H, %h", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
-      "the automaton in HOA format on a single line (use %[opt]H or %[opt]h "
-      "to specify additional options as in --hoa=opt)", 0 },
-    { "%M, %m", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
-      "name of the automaton", 0 },
-    { "%S, %s", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
-      "number of reachable states", 0 },
-    { "%E, %e", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
-      "number of reachable edges", 0 },
-    { "%T, %t", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
-      "number of reachable transitions", 0 },
-    { "%A, %a", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
-      "number of acceptance sets", 0 },
-    { "%G, %g, %[LETTERS]G, %[LETTERS]g", 0, nullptr,
-      OPTION_DOC | OPTION_NO_USAGE, doc_g, 0 },
-    { "%C, %c, %[LETTERS]C, %[LETTERS]c", 0, nullptr,
-      OPTION_DOC | OPTION_NO_USAGE,
-      "number of SCCs; you may filter the SCCs to count "
-      "using the following LETTERS, possibly concatenated: (a) accepting, "
-      "(r) rejecting, (c) complete, (v) trivial, (t) terminal, (w) weak, "
-      "(iw) inherently weak. Use uppercase letters to negate them.", 0 },
-    { "%R, %[LETTERS]R", 0, nullptr,
-      OPTION_DOC | OPTION_NO_USAGE,
-      "CPU time (excluding parsing), in seconds; Add LETTERS to restrict to"
-      "(u) user time, (s) system time, (p) parent process, "
-      "or (c) children processes.", 0 },
-    { "%N, %n", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
-      "number of nondeterministic states", 0 },
-    { "%D, %d", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
-      "1 if the automaton is deterministic, 0 otherwise", 0 },
-    { "%P, %p", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
-      "1 if the automaton is complete, 0 otherwise", 0 },
-    { "%r", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
-      "wall-clock time elapsed in seconds (excluding parsing)", 0 },
-    { "%U, %u, %[LETTER]U, %[LETTER]u", 0, nullptr,
-      OPTION_DOC | OPTION_NO_USAGE,
-      "1 if the automaton contains some universal branching "
-      "(or a number of [s]tates or [e]dges with universal branching)", 0 },
-    { "%W, %w", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
-      "one word accepted by the automaton", 0 },
-    { "%X, %x, %[LETTERS]X, %[LETTERS]x", 0, nullptr,
-      OPTION_DOC | OPTION_NO_USAGE,
-      COMMON_X_OUTPUT_SPECS(declared in the automaton), 0 },
-    { "%%", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
-      "a single %", 0 },
-    { "%<", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
-      "the part of the line before the automaton if it "
-      "comes from a column extracted from a CSV file", 4 },
-    { "%>", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
-      "the part of the line after the automaton if it "
-      "comes from a column extracted from a CSV file", 4 },
-    { nullptr, 0, nullptr, 0, nullptr, 0 }
-  };
+// static const argp_option io_options[] =
+//   {
+//     /**************************************************/
+//     { nullptr, 0, nullptr, 0, "Any FORMAT string may use "\
+//       "the following interpreted sequences (capitals for input,"
+//       " minuscules for output):", 4 },
+//     { "%F", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE, F_doc, 0 },
+//     { "%L", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE, L_doc, 0 },
+//     { "%H, %h", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
+//       "the automaton in HOA format on a single line (use %[opt]H or %[opt]h "
+//       "to specify additional options as in --hoa=opt)", 0 },
+//     { "%M, %m", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
+//       "name of the automaton", 0 },
+//     { "%S, %s", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
+//       "number of reachable states", 0 },
+//     { "%E, %e", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
+//       "number of reachable edges", 0 },
+//     { "%T, %t", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
+//       "number of reachable transitions", 0 },
+//     { "%A, %a", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
+//       "number of acceptance sets", 0 },
+//     { "%G, %g, %[LETTERS]G, %[LETTERS]g", 0, nullptr,
+//       OPTION_DOC | OPTION_NO_USAGE, doc_g, 0 },
+//     { "%C, %c, %[LETTERS]C, %[LETTERS]c", 0, nullptr,
+//       OPTION_DOC | OPTION_NO_USAGE,
+//       "number of SCCs; you may filter the SCCs to count "
+//       "using the following LETTERS, possibly concatenated: (a) accepting, "
+//       "(r) rejecting, (c) complete, (v) trivial, (t) terminal, (w) weak, "
+//       "(iw) inherently weak. Use uppercase letters to negate them.", 0 },
+//     { "%R, %[LETTERS]R", 0, nullptr,
+//       OPTION_DOC | OPTION_NO_USAGE,
+//       "CPU time (excluding parsing), in seconds; Add LETTERS to restrict to"
+//       "(u) user time, (s) system time, (p) parent process, "
+//       "or (c) children processes.", 0 },
+//     { "%N, %n", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
+//       "number of nondeterministic states", 0 },
+//     { "%D, %d", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
+//       "1 if the automaton is deterministic, 0 otherwise", 0 },
+//     { "%P, %p", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
+//       "1 if the automaton is complete, 0 otherwise", 0 },
+//     { "%r", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
+//       "wall-clock time elapsed in seconds (excluding parsing)", 0 },
+//     { "%U, %u, %[LETTER]U, %[LETTER]u", 0, nullptr,
+//       OPTION_DOC | OPTION_NO_USAGE,
+//       "1 if the automaton contains some universal branching "
+//       "(or a number of [s]tates or [e]dges with universal branching)", 0 },
+//     { "%W, %w", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
+//       "one word accepted by the automaton", 0 },
+//     { "%X, %x, %[LETTERS]X, %[LETTERS]x", 0, nullptr,
+//       OPTION_DOC | OPTION_NO_USAGE,
+//       COMMON_X_OUTPUT_SPECS(declared in the automaton), 0 },
+//     { "%%", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
+//       "a single %", 0 },
+//     { "%<", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
+//       "the part of the line before the automaton if it "
+//       "comes from a column extracted from a CSV file", 4 },
+//     { "%>", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
+//       "the part of the line after the automaton if it "
+//       "comes from a column extracted from a CSV file", 4 },
+//     { nullptr, 0, nullptr, 0, nullptr, 0 }
+//   };
 
-const struct argp aoutput_io_format_argp = { io_options, nullptr, nullptr,
-                                             nullptr, nullptr,
-                                             nullptr, nullptr };
+// const struct argp aoutput_io_format_argp = { io_options, nullptr, nullptr,
+                                             // nullptr, nullptr,
+                                             // nullptr, nullptr };
 
-static const argp_option o_options[] =
-  {
-    /**************************************************/
-    { nullptr, 0, nullptr, 0, "Any FORMAT string may use "\
-      "the following interpreted sequences:", 4 },
-    { "%F", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE, F_doc, 0 },
-    { "%L", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE, L_doc, 0 },
-    { "%h", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
-      "the automaton in HOA format on a single line (use %[opt]h "
-      "to specify additional options as in --hoa=opt)", 0 },
-    { "%m", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
-      "name of the automaton", 0 },
-    { "%s", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
-      "number of reachable states", 0 },
-    { "%e", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
-      "number of reachable edges", 0 },
-    { "%t", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
-      "number of reachable transitions", 0 },
-    { "%a", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
-      "number of acceptance sets", 0 },
-    { "%g, %[LETTERS]g", 0, nullptr,
-      OPTION_DOC | OPTION_NO_USAGE, doc_g, 0 },
-    { "%c, %[LETTERS]c", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
-      "number of SCCs; you may filter the SCCs to count "
-      "using the following LETTERS, possibly concatenated: (a) accepting, "
-      "(r) rejecting, (c) complete, (v) trivial, (t) terminal, (w) weak, "
-      "(iw) inherently weak. Use uppercase letters to negate them.", 0 },
-    { "%R, %[LETTERS]R", 0, nullptr,
-      OPTION_DOC | OPTION_NO_USAGE,
-      "CPU time (excluding parsing), in seconds; Add LETTERS to restrict to"
-      "(u) user time, (s) system time, (p) parent process, "
-      "or (c) children processes.", 0 },
-    { "%n", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
-      "number of nondeterministic states in output", 0 },
-    { "%u, %[LETTER]u", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
-      "1 if the automaton contains some universal branching "
-      "(or a number of [s]tates or [e]dges with universal branching)", 0 },
-    { "%u, %[e]u", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
-      "number of states (or [e]dges) with universal branching", 0 },
-    { "%d", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
-      "1 if the output is deterministic, 0 otherwise", 0 },
-    { "%p", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
-      "1 if the output is complete, 0 otherwise", 0 },
-    { "%r", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
-      "wall-clock time elapsed in seconds (excluding parsing)", 0 },
-    { "%w", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
-      "one word accepted by the output automaton", 0 },
-    { "%x, %[LETTERS]x", 0, nullptr,
-      OPTION_DOC | OPTION_NO_USAGE,
-      COMMON_X_OUTPUT_SPECS(declared in the automaton), 0 },
-    { "%%", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
-      "a single %", 0 },
-    { nullptr, 0, nullptr, 0, nullptr, 0 }
-  };
+// static const argp_option o_options[] =
+//   {
+//     /**************************************************/
+//     { nullptr, 0, nullptr, 0, "Any FORMAT string may use "\
+//       "the following interpreted sequences:", 4 },
+//     { "%F", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE, F_doc, 0 },
+//     { "%L", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE, L_doc, 0 },
+//     { "%h", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
+//       "the automaton in HOA format on a single line (use %[opt]h "
+//       "to specify additional options as in --hoa=opt)", 0 },
+//     { "%m", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
+//       "name of the automaton", 0 },
+//     { "%s", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
+//       "number of reachable states", 0 },
+//     { "%e", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
+//       "number of reachable edges", 0 },
+//     { "%t", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
+//       "number of reachable transitions", 0 },
+//     { "%a", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
+//       "number of acceptance sets", 0 },
+//     { "%g, %[LETTERS]g", 0, nullptr,
+//       OPTION_DOC | OPTION_NO_USAGE, doc_g, 0 },
+//     { "%c, %[LETTERS]c", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
+//       "number of SCCs; you may filter the SCCs to count "
+//       "using the following LETTERS, possibly concatenated: (a) accepting, "
+//       "(r) rejecting, (c) complete, (v) trivial, (t) terminal, (w) weak, "
+//       "(iw) inherently weak. Use uppercase letters to negate them.", 0 },
+//     { "%R, %[LETTERS]R", 0, nullptr,
+//       OPTION_DOC | OPTION_NO_USAGE,
+//       "CPU time (excluding parsing), in seconds; Add LETTERS to restrict to"
+//       "(u) user time, (s) system time, (p) parent process, "
+//       "or (c) children processes.", 0 },
+//     { "%n", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
+//       "number of nondeterministic states in output", 0 },
+//     { "%u, %[LETTER]u", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
+//       "1 if the automaton contains some universal branching "
+//       "(or a number of [s]tates or [e]dges with universal branching)", 0 },
+//     { "%u, %[e]u", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
+//       "number of states (or [e]dges) with universal branching", 0 },
+//     { "%d", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
+//       "1 if the output is deterministic, 0 otherwise", 0 },
+//     { "%p", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
+//       "1 if the output is complete, 0 otherwise", 0 },
+//     { "%r", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
+//       "wall-clock time elapsed in seconds (excluding parsing)", 0 },
+//     { "%w", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
+//       "one word accepted by the output automaton", 0 },
+//     { "%x, %[LETTERS]x", 0, nullptr,
+//       OPTION_DOC | OPTION_NO_USAGE,
+//       COMMON_X_OUTPUT_SPECS(declared in the automaton), 0 },
+//     { "%%", 0, nullptr, OPTION_DOC | OPTION_NO_USAGE,
+//       "a single %", 0 },
+//     { nullptr, 0, nullptr, 0, nullptr, 0 }
+//   };
 
 // const struct argp aoutput_o_format_argp = { o_options,
 //                                             nullptr, nullptr, nullptr,
