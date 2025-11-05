@@ -55,7 +55,7 @@
 // int parse_opt_aoutput(int key, char* arg, struct argp_state* state);
 
 
-enum stat_style { no_input, aut_input, ltl_input };
+// enum stat_style { no_input, aut_input, ltl_input };
 
 
 struct printable_automaton final:
