@@ -15,7 +15,6 @@
 
 #include "common_aoutput.hh"
 #include "common_finput.hh"
-#include "common_setup.hh"
 
 #include "aut_preprocessors.hh"
 
