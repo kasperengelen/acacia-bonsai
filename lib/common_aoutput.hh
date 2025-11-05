@@ -128,52 +128,52 @@ public:
 /// This object can be configured to display various statistics
 /// about a TGBA.  Some %-sequence of characters are interpreted in
 /// the format string, and replaced by the corresponding statistics.
-class hoa_stat_printer: protected spot::stat_printer
-{
-public:
-  hoa_stat_printer(std::ostream& os, const char* format,
-      stat_style input = no_input);
-
-  using spot::formater::declare;
-  using spot::formater::set_output;
-
-  /// \brief print the configured statistics.
-  ///
-  /// The \a f argument is not needed if the Formula does not need
-  /// to be output.
-  std::ostream&
-    print(const spot::const_parsed_aut_ptr& haut,
-        const spot::const_twa_graph_ptr& aut,
-        spot::formula f,
-        const char* filename, int loc, spot::process_timer& ptimer,
-        const char* csv_prefix, const char* csv_suffix);
-
-private:
-  spot::printable_value<const char*> filename_;
-  spot::printable_value<std::string> location_;
-  spot::printable_value<std::string> haut_name_;
-  spot::printable_value<std::string> aut_name_;
-  spot::printable_value<std::string> aut_word_;
-  spot::printable_value<std::string> haut_word_;
-  spot::printable_acc_cond haut_gen_acc_;
-  spot::printable_value<unsigned> haut_states_;
-  spot::printable_value<unsigned> haut_edges_;
-  spot::printable_value<unsigned long long> haut_trans_;
-  spot::printable_value<unsigned> haut_acc_;
-  printable_varset haut_ap_;
-  printable_varset aut_ap_;
-  spot::printable_scc_info haut_scc_;
-  spot::printable_value<unsigned> haut_deterministic_;
-  spot::printable_value<unsigned> haut_nondetstates_;
-  spot::printable_value<unsigned> haut_complete_;
-  spot::printable_value<const char*> csv_prefix_;
-  spot::printable_value<const char*> csv_suffix_;
-  printable_univbranch haut_univbranch_;
-  printable_univbranch aut_univbranch_;
-  printable_timer timer_;
-  printable_automaton input_aut_;
-  printable_automaton output_aut_;
-};
+// class hoa_stat_printer: protected spot::stat_printer
+// {
+// public:
+//   hoa_stat_printer(std::ostream& os, const char* format,
+//       stat_style input = no_input);
+//
+//   using spot::formater::declare;
+//   using spot::formater::set_output;
+//
+//   /// \brief print the configured statistics.
+//   ///
+//   /// The \a f argument is not needed if the Formula does not need
+//   /// to be output.
+//   std::ostream&
+//     print(const spot::const_parsed_aut_ptr& haut,
+//         const spot::const_twa_graph_ptr& aut,
+//         spot::formula f,
+//         const char* filename, int loc, spot::process_timer& ptimer,
+//         const char* csv_prefix, const char* csv_suffix);
+//
+// private:
+//   spot::printable_value<const char*> filename_;
+//   spot::printable_value<std::string> location_;
+//   spot::printable_value<std::string> haut_name_;
+//   spot::printable_value<std::string> aut_name_;
+//   spot::printable_value<std::string> aut_word_;
+//   spot::printable_value<std::string> haut_word_;
+//   spot::printable_acc_cond haut_gen_acc_;
+//   spot::printable_value<unsigned> haut_states_;
+//   spot::printable_value<unsigned> haut_edges_;
+//   spot::printable_value<unsigned long long> haut_trans_;
+//   spot::printable_value<unsigned> haut_acc_;
+//   printable_varset haut_ap_;
+//   printable_varset aut_ap_;
+//   spot::printable_scc_info haut_scc_;
+//   spot::printable_value<unsigned> haut_deterministic_;
+//   spot::printable_value<unsigned> haut_nondetstates_;
+//   spot::printable_value<unsigned> haut_complete_;
+//   spot::printable_value<const char*> csv_prefix_;
+//   spot::printable_value<const char*> csv_suffix_;
+//   printable_univbranch haut_univbranch_;
+//   printable_univbranch aut_univbranch_;
+//   printable_timer timer_;
+//   printable_automaton input_aut_;
+//   printable_automaton output_aut_;
+// };
 
 
 // class automaton_printer
