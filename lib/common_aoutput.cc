@@ -23,6 +23,7 @@
 #include "common_output.hh"
 #include "common_aoutput.hh"
 #include "common_post.hh"
+#include <spot/twaalgos/postproc.hh>
 #include "common_cout.hh"
 #include "common_setup.hh"
 
@@ -41,6 +42,7 @@
 #include <spot/twaalgos/isdet.hh>
 
 
+spot::postprocessor::output_type type = spot::postprocessor::TGBA;
 automaton_format_t automaton_format = Hoa;
 static const char* automaton_format_opt = nullptr;
 const char* opt_name = nullptr;

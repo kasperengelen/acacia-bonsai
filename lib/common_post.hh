@@ -19,13 +19,13 @@
 
 #pragma once
 
-#include <spot/twaalgos/postproc.hh>
+// #include <spot/twaalgos/postproc.hh>
 
 // extern const struct argp post_argp;          // postprocessing enabled
 // extern const struct argp post_argp_disabled; // postprocessing disabled
 // extern const struct argp post_argp_nooutput; // no output option
 
-extern spot::postprocessor::output_type type;
+// extern spot::postprocessor::output_type type;
 // extern spot::postprocessor::output_pref pref;
 // extern spot::postprocessor::output_pref comp;
 // extern spot::postprocessor::output_pref sbacc;

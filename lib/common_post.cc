@@ -23,8 +23,9 @@
 #include "common_setup.hh"
 #include "error.h"
 #include "argmatch.h"
+// #include <spot/twaalgos/postproc.hh>
 
-spot::postprocessor::output_type type = spot::postprocessor::TGBA;
+// spot::postprocessor::output_type type = spot::postprocessor::TGBA;
 // spot::postprocessor::output_pref pref = spot::postprocessor::Small;
 // spot::postprocessor::output_pref comp = spot::postprocessor::Any;
 // spot::postprocessor::output_pref sbacc = spot::postprocessor::Any;
