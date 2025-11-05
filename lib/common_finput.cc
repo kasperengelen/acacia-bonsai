@@ -18,7 +18,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common_finput.hh"
-#include "common_setup.hh"
 #include "progname.h"
 #include "error.h"
 
@@ -77,13 +76,17 @@ job_processor::process_string(const std::string& input,
       pf.format_errors(std::cerr);
       return 1;
     }
+  // TODO: this is a virtual method. It is overridden in the ltl_processor.
   return process_formula(pf.f, filename, linenum);
 }
 
+
+// TODO: figure out what this does. Can we just use the SPOT parser for this?
 int
 job_processor::process_stream(std::istream& is,
                               const char* filename)
 {
+  // TODO: this seems to a CSV parser?
   int error = 0;
   int linenum = 1;
   std::string line;
