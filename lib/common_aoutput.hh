@@ -19,7 +19,6 @@
 
 #pragma once
 
-#include "common_sys.hh"
 #include "common_file.hh"
 
 #include <argp.h>
