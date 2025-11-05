@@ -44,8 +44,8 @@
 // extern const struct argp aoutput_argp;
 
 // help text for %F and %L
-extern char F_doc[32];
-extern char L_doc[32];
+// extern char F_doc[32];
+// extern char L_doc[32];
 
 // FORMAT help text
 // extern const struct argp aoutput_io_format_argp;
@@ -176,32 +176,32 @@ private:
 };
 
 
-class automaton_printer
-{
-  hoa_stat_printer statistics;
-  std::ostringstream name;
-  hoa_stat_printer namer;
-  std::ostringstream outputname;
-  hoa_stat_printer outputnamer;
-  std::map<std::string, std::unique_ptr<output_file>> outputfiles;
-
-public:
-  automaton_printer(stat_style input = no_input);
-  ~automaton_printer();
-
-  void
-  print(const spot::twa_graph_ptr& aut,
-        spot::process_timer& ptimer,
-        spot::formula f = nullptr,
-        // Input location for errors and statistics.
-        const char* filename = nullptr,
-        int loc = -1,
-        // Time and input automaton for statistics
-        const spot::const_parsed_aut_ptr& haut = nullptr,
-        const char* csv_prefix = nullptr,
-        const char* csv_suffix = nullptr);
-
-  void add_stat(char c, const spot::printable* p);
-};
-
-void setup_default_output_format();
+// class automaton_printer
+// {
+//   hoa_stat_printer statistics;
+//   std::ostringstream name;
+//   hoa_stat_printer namer;
+//   std::ostringstream outputname;
+//   hoa_stat_printer outputnamer;
+//   std::map<std::string, std::unique_ptr<output_file>> outputfiles;
+//
+// public:
+//   automaton_printer(stat_style input = no_input);
+//   ~automaton_printer();
+//
+//   void
+//   print(const spot::twa_graph_ptr& aut,
+//         spot::process_timer& ptimer,
+//         spot::formula f = nullptr,
+//         // Input location for errors and statistics.
+//         const char* filename = nullptr,
+//         int loc = -1,
+//         // Time and input automaton for statistics
+//         const spot::const_parsed_aut_ptr& haut = nullptr,
+//         const char* csv_prefix = nullptr,
+//         const char* csv_suffix = nullptr);
+//
+//   void add_stat(char c, const spot::printable* p);
+// };
+//
+// void setup_default_output_format();

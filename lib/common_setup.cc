@@ -85,7 +85,7 @@ setup(char** argv)
   if (!isatty(STDIN_FILENO))
     std::cin.tie(nullptr);
 
-  setup_default_output_format();
+  // setup_default_output_format();
   setup_sig_handler();
   atexit(atexit_cleanup);
 }

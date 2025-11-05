@@ -591,104 +591,104 @@ hoa_stat_printer::print(const spot::const_parsed_aut_ptr& haut,
   return res;
 }
 
-automaton_printer::automaton_printer(stat_style input)
-  : statistics(std::cout, stats, input),
-    namer(name, opt_name, input),
-    outputnamer(outputname, opt_output, input)
-{
-  if (automaton_format == Count && opt_output)
-    throw std::runtime_error
-      ("options --output and --count are incompatible");
-}
+// automaton_printer::automaton_printer(stat_style input)
+//   : statistics(std::cout, stats, input),
+//     namer(name, opt_name, input),
+//     outputnamer(outputname, opt_output, input)
+// {
+//   if (automaton_format == Count && opt_output)
+//     throw std::runtime_error
+//       ("options --output and --count are incompatible");
+// }
+//
+// void
+// automaton_printer::print(const spot::twa_graph_ptr& aut,
+//                          // Time for statistics
+//                          spot::process_timer& ptimer,
+//                          spot::formula f,
+//                          // Input location for errors and statistics.
+//                          const char* filename,
+//                          int loc,
+//                          // input automaton for statistics
+//                          const spot::const_parsed_aut_ptr& haut,
+//                          const char* csv_prefix,
+//                          const char* csv_suffix)
+// {
+//   if (opt_check)
+//     {
+//       if (opt_check & check_stutter)
+//         spot::check_stutter_invariance(aut, f, false,
+//                                        (opt_check & check_stutter_example)
+//                                        == check_stutter_example);
+//       if (opt_check & check_unambiguous)
+//         spot::check_unambiguous(aut);
+//       if (opt_check & check_strength)
+//         spot::check_strength(aut);
+//       if (opt_check & check_semi_determinism)
+//         spot::is_semi_deterministic(aut); // sets the property as a side effect.
+//     }
+//
+//   // Name the output automaton.
+//   if (opt_name)
+//     {
+//       name.str("");
+//       namer.print(haut, aut, f, filename, loc, ptimer, csv_prefix, csv_suffix);
+//       aut->set_named_prop("automaton-name", new std::string(name.str()));
+//     }
+//
+//   std::ostream* out = &std::cout;
+//   if (opt_output)
+//     {
+//       outputname.str("");
+//       outputnamer.print(haut, aut, f, filename, loc, ptimer,
+//                         csv_prefix, csv_suffix);
+//       std::string fname = outputname.str();
+//       auto p = outputfiles.emplace(fname, nullptr);
+//       if (p.second)
+//         p.first->second.reset(new output_file(fname.c_str()));
+//       out = &p.first->second->ostream();
+//     }
+//
+//   // Output it.
+//   switch (automaton_format)
+//     {
+//     case Count:
+//     case Quiet:
+//       // Do not output anything.
+//       break;
+//     case Dot:
+//       spot::print_dot(*out, aut, automaton_format_opt);
+//       break;
+//     case Lbtt:
+//       spot::print_lbtt(*out, aut, automaton_format_opt);
+//       break;
+//     case Hoa:
+//       spot::print_hoa(*out, aut, automaton_format_opt) << '\n';
+//       break;
+//     case Spin:
+//       spot::print_never_claim(*out, aut, automaton_format_opt);
+//       break;
+//     case Stats:
+//       statistics.set_output(*out);
+//       statistics.print(haut, aut, f, filename, loc, ptimer,
+//                        csv_prefix, csv_suffix) << '\n';
+//       break;
+//     }
+//   flush_cout();
+// }
 
-void
-automaton_printer::print(const spot::twa_graph_ptr& aut,
-                         // Time for statistics
-                         spot::process_timer& ptimer,
-                         spot::formula f,
-                         // Input location for errors and statistics.
-                         const char* filename,
-                         int loc,
-                         // input automaton for statistics
-                         const spot::const_parsed_aut_ptr& haut,
-                         const char* csv_prefix,
-                         const char* csv_suffix)
-{
-  if (opt_check)
-    {
-      if (opt_check & check_stutter)
-        spot::check_stutter_invariance(aut, f, false,
-                                       (opt_check & check_stutter_example)
-                                       == check_stutter_example);
-      if (opt_check & check_unambiguous)
-        spot::check_unambiguous(aut);
-      if (opt_check & check_strength)
-        spot::check_strength(aut);
-      if (opt_check & check_semi_determinism)
-        spot::is_semi_deterministic(aut); // sets the property as a side effect.
-    }
+// void automaton_printer::add_stat(char c, const spot::printable* p)
+// {
+//   namer.declare(c, p);
+//   statistics.declare(c, p);
+//   outputnamer.declare(c, p);
+// }
 
-  // Name the output automaton.
-  if (opt_name)
-    {
-      name.str("");
-      namer.print(haut, aut, f, filename, loc, ptimer, csv_prefix, csv_suffix);
-      aut->set_named_prop("automaton-name", new std::string(name.str()));
-    }
-
-  std::ostream* out = &std::cout;
-  if (opt_output)
-    {
-      outputname.str("");
-      outputnamer.print(haut, aut, f, filename, loc, ptimer,
-                        csv_prefix, csv_suffix);
-      std::string fname = outputname.str();
-      auto p = outputfiles.emplace(fname, nullptr);
-      if (p.second)
-        p.first->second.reset(new output_file(fname.c_str()));
-      out = &p.first->second->ostream();
-    }
-
-  // Output it.
-  switch (automaton_format)
-    {
-    case Count:
-    case Quiet:
-      // Do not output anything.
-      break;
-    case Dot:
-      spot::print_dot(*out, aut, automaton_format_opt);
-      break;
-    case Lbtt:
-      spot::print_lbtt(*out, aut, automaton_format_opt);
-      break;
-    case Hoa:
-      spot::print_hoa(*out, aut, automaton_format_opt) << '\n';
-      break;
-    case Spin:
-      spot::print_never_claim(*out, aut, automaton_format_opt);
-      break;
-    case Stats:
-      statistics.set_output(*out);
-      statistics.print(haut, aut, f, filename, loc, ptimer,
-                       csv_prefix, csv_suffix) << '\n';
-      break;
-    }
-  flush_cout();
-}
-
-void automaton_printer::add_stat(char c, const spot::printable* p)
-{
-  namer.declare(c, p);
-  statistics.declare(c, p);
-  outputnamer.declare(c, p);
-}
-
-automaton_printer::~automaton_printer()
-{
-  for (auto& p : outputfiles)
-    p.second->close(p.first);
-}
+// automaton_printer::~automaton_printer()
+// {
+//   for (auto& p : outputfiles)
+//     p.second->close(p.first);
+// }
 
 
 void printable_automaton::print(std::ostream& os, const char* pos) const
