@@ -737,78 +737,78 @@ namespace
 //   os << (spot::count_univbranch_edges(val_) ? 1 : 0);
 // }
 
-void printable_timer::print(std::ostream& os, const char* pos) const
-{
-  double res = 0;
-
-#ifdef _SC_CLK_TCK
-  const long clocks_per_sec = sysconf(_SC_CLK_TCK);
-#else
-#  ifdef CLOCKS_PER_SEC
-  const long clocks_per_sec = CLOCKS_PER_SEC;
-#  else
-  const long clocks_per_sec = 100;
-#  endif
-#endif
-
-  if (*pos != '[')
-    {
-      if (*pos == 'r')
-        {
-          res = val_.walltime();
-          os << res;
-        }
-      else
-        {
-          res = val_.cputime(true, true, true, true);
-          os << res / clocks_per_sec;
-        }
-      return;
-    }
-
-  bool user = false;
-  bool system = false;
-  bool parent = false;
-  bool children = false;
-
-  const char* beg = pos;
-  do
-    switch (*++pos)
-      {
-      case 'u':
-        user = true;
-        break;
-      case 's':
-        system = true;
-        break;
-      case 'p':
-        parent = true;
-        break;
-      case 'c':
-        children = true;
-        break;
-      case ' ':
-      case '\t':
-      case '\n':
-      case ',':
-      case ']':
-        break;
-      default:
-        percent_error(beg, pos);
-      }
-  while (*pos != ']');
-
-  if (*(pos + 1) == 'r')
-    percent_error(beg, pos-1);
-
-  if (!parent && !children)
-    parent = children = true;
-  if (!user && !system)
-    user = system = true;
-
-  res = val_.cputime(user, system, children, parent);
-  os << res / clocks_per_sec;
-}
+// void printable_timer::print(std::ostream& os, const char* pos) const
+// {
+//   double res = 0;
+//
+// #ifdef _SC_CLK_TCK
+//   const long clocks_per_sec = sysconf(_SC_CLK_TCK);
+// #else
+// #  ifdef CLOCKS_PER_SEC
+//   const long clocks_per_sec = CLOCKS_PER_SEC;
+// #  else
+//   const long clocks_per_sec = 100;
+// #  endif
+// #endif
+//
+//   if (*pos != '[')
+//     {
+//       if (*pos == 'r')
+//         {
+//           res = val_.walltime();
+//           os << res;
+//         }
+//       else
+//         {
+//           res = val_.cputime(true, true, true, true);
+//           os << res / clocks_per_sec;
+//         }
+//       return;
+//     }
+//
+//   bool user = false;
+//   bool system = false;
+//   bool parent = false;
+//   bool children = false;
+//
+//   const char* beg = pos;
+//   do
+//     switch (*++pos)
+//       {
+//       case 'u':
+//         user = true;
+//         break;
+//       case 's':
+//         system = true;
+//         break;
+//       case 'p':
+//         parent = true;
+//         break;
+//       case 'c':
+//         children = true;
+//         break;
+//       case ' ':
+//       case '\t':
+//       case '\n':
+//       case ',':
+//       case ']':
+//         break;
+//       default:
+//         percent_error(beg, pos);
+//       }
+//   while (*pos != ']');
+//
+//   if (*(pos + 1) == 'r')
+//     percent_error(beg, pos-1);
+//
+//   if (!parent && !children)
+//     parent = children = true;
+//   if (!user && !system)
+//     user = system = true;
+//
+//   res = val_.cputime(user, system, children, parent);
+//   os << res / clocks_per_sec;
+// }
 
 void printable_varset::print(std::ostream& os, const char* pos) const
 {
