@@ -331,96 +331,96 @@ static const argp_option o_options[] =
     { nullptr, 0, nullptr, 0, nullptr, 0 }
   };
 
-const struct argp aoutput_o_format_argp = { o_options,
-                                            nullptr, nullptr, nullptr,
-                                            nullptr, nullptr, nullptr };
+// const struct argp aoutput_o_format_argp = { o_options,
+//                                             nullptr, nullptr, nullptr,
+//                                             nullptr, nullptr, nullptr };
+//
+// int parse_opt_aoutput(int key, char* arg, struct argp_state*)
+// {
+//   // Called from C code, so should not raise any exception.
+//   BEGIN_EXCEPTION_PROTECT;
+//   // This switch is alphabetically-ordered.
+//   switch (key)
+//     {
+//     case '8':
+//       spot::enable_utf8();
+//       break;
+//     case 'd':
+//       automaton_format = Dot;
+//       automaton_format_opt = arg;
+//       break;
+//     case 'H':
+//       automaton_format = Hoa;
+//       automaton_format_opt = arg;
+//       break;
+//     case 'o':
+//       opt_output = arg;
+//       break;
+//     case 'q':
+//       automaton_format = Quiet;
+//       break;
+//     case 's':
+//       automaton_format = Spin;
+//       if (type != spot::postprocessor::Monitor)
+//         type = spot::postprocessor::BA;
+//       automaton_format_opt = arg;
+//       break;
+//     case OPT_CHECK:
+//       automaton_format = Hoa;
+//       if (arg)
+//         opt_check |= XARGMATCH("--check", arg, check_args, check_types);
+//       else
+//         opt_check |= check_all;
+//       break;
+//     case OPT_LBTT:
+//       automaton_format = Lbtt;
+//       automaton_format_opt = arg;
+//       // This test could be removed when more options are added,
+//       // because print_lbtt will raise an exception anyway.  The
+//       // error message is slightly better in the current way.
+//       if (arg && (arg[0] != 't' || arg[1] != 0))
+//         error(2, 0, "unknown argument for --lbtt: '%s'", arg);
+//       break;
+//     case OPT_NAME:
+//       opt_name = arg;
+//       break;
+//     case OPT_STATS:
+//       if (!*arg)
+//         error(2, 0, "empty format string for --stats");
+//       stats = arg;
+//       automaton_format = Stats;
+//       break;
+//     default:
+//       return ARGP_ERR_UNKNOWN;
+//     }
+//   END_EXCEPTION_PROTECT;
+//   return 0;
+// }
 
-int parse_opt_aoutput(int key, char* arg, struct argp_state*)
-{
-  // Called from C code, so should not raise any exception.
-  BEGIN_EXCEPTION_PROTECT;
-  // This switch is alphabetically-ordered.
-  switch (key)
-    {
-    case '8':
-      spot::enable_utf8();
-      break;
-    case 'd':
-      automaton_format = Dot;
-      automaton_format_opt = arg;
-      break;
-    case 'H':
-      automaton_format = Hoa;
-      automaton_format_opt = arg;
-      break;
-    case 'o':
-      opt_output = arg;
-      break;
-    case 'q':
-      automaton_format = Quiet;
-      break;
-    case 's':
-      automaton_format = Spin;
-      if (type != spot::postprocessor::Monitor)
-        type = spot::postprocessor::BA;
-      automaton_format_opt = arg;
-      break;
-    case OPT_CHECK:
-      automaton_format = Hoa;
-      if (arg)
-        opt_check |= XARGMATCH("--check", arg, check_args, check_types);
-      else
-        opt_check |= check_all;
-      break;
-    case OPT_LBTT:
-      automaton_format = Lbtt;
-      automaton_format_opt = arg;
-      // This test could be removed when more options are added,
-      // because print_lbtt will raise an exception anyway.  The
-      // error message is slightly better in the current way.
-      if (arg && (arg[0] != 't' || arg[1] != 0))
-        error(2, 0, "unknown argument for --lbtt: '%s'", arg);
-      break;
-    case OPT_NAME:
-      opt_name = arg;
-      break;
-    case OPT_STATS:
-      if (!*arg)
-        error(2, 0, "empty format string for --stats");
-      stats = arg;
-      automaton_format = Stats;
-      break;
-    default:
-      return ARGP_ERR_UNKNOWN;
-    }
-  END_EXCEPTION_PROTECT;
-  return 0;
-}
-
-void setup_default_output_format()
-{
-  if (auto val = getenv("SPOT_DEFAULT_FORMAT"))
-    {
-      static char const *const args[] =
-        {
-          "dot", "hoa", "hoaf", nullptr
-        };
-      static automaton_format_t const format[] =
-        {
-          Dot, Hoa, Hoa
-        };
-      auto eq = strchr(val, '=');
-      if (eq)
-        {
-          val = strndup(val, eq - val);
-          automaton_format_opt = eq + 1;
-        }
-      ARGMATCH_VERIFY(args, format);
-      automaton_format = XARGMATCH("SPOT_DEFAULT_FORMAT", val, args, format);
-      if (eq)
-        free(val);
-    }
-}
+// void setup_default_output_format()
+// {
+//   if (auto val = getenv("SPOT_DEFAULT_FORMAT"))
+//     {
+//       static char const *const args[] =
+//         {
+//           "dot", "hoa", "hoaf", nullptr
+//         };
+//       static automaton_format_t const format[] =
+//         {
+//           Dot, Hoa, Hoa
+//         };
+//       auto eq = strchr(val, '=');
+//       if (eq)
+//         {
+//           val = strndup(val, eq - val);
+//           automaton_format_opt = eq + 1;
+//         }
+//       ARGMATCH_VERIFY(args, format);
+//       automaton_format = XARGMATCH("SPOT_DEFAULT_FORMAT", val, args, format);
+//       if (eq)
+//         free(val);
+//     }
+// }
 
 // hoa_stat_printer::hoa_stat_printer(std::ostream& os, const char* format,
 //                                    stat_style input)
