@@ -21,8 +21,7 @@
 #include "common_aoutput.hh"
 
 #include <error.h>
-// #include "argp.h"
-#include "closeout.h"
+// #include "closeout.h"
 #include "progname.h"
 #include <cstdlib>
 #include <unistd.h>
