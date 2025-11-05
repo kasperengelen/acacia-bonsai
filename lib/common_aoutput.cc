@@ -691,18 +691,18 @@ enum {
 // }
 
 
-void printable_automaton::print(std::ostream& os, const char* pos) const
-{
-  std::string options = "l";
-  if (*pos == '[')
-    {
-      ++pos;
-      auto end = strchr(pos, ']');
-      options = std::string(pos, end - pos);
-      options += 'l';
-    }
-  print_hoa(os, val_, options.c_str());
-}
+// void printable_automaton::print(std::ostream& os, const char* pos) const
+// {
+//   std::string options = "l";
+//   if (*pos == '[')
+//     {
+//       ++pos;
+//       auto end = strchr(pos, ']');
+//       options = std::string(pos, end - pos);
+//       options += 'l';
+//     }
+//   print_hoa(os, val_, options.c_str());
+// }
 
 
 namespace
@@ -717,25 +717,25 @@ namespace
   }
 }
 
-void printable_univbranch::print(std::ostream& os, const char* pos) const
-{
-  std::string options = "l";
-  if (pos[0] == '[' && pos[1] != ']')
-    {
-      if (pos[1] == 'e' && pos[2] == ']')
-        {
-          os << spot::count_univbranch_edges(val_);
-          return;
-        }
-      else if (pos[1] == 's' && pos[2] == ']')
-        {
-          os << spot::count_univbranch_states(val_);
-          return;
-        }
-      percent_error(pos, pos + 1);
-    }
-  os << (spot::count_univbranch_edges(val_) ? 1 : 0);
-}
+// void printable_univbranch::print(std::ostream& os, const char* pos) const
+// {
+//   std::string options = "l";
+//   if (pos[0] == '[' && pos[1] != ']')
+//     {
+//       if (pos[1] == 'e' && pos[2] == ']')
+//         {
+//           os << spot::count_univbranch_edges(val_);
+//           return;
+//         }
+//       else if (pos[1] == 's' && pos[2] == ']')
+//         {
+//           os << spot::count_univbranch_states(val_);
+//           return;
+//         }
+//       percent_error(pos, pos + 1);
+//     }
+//   os << (spot::count_univbranch_edges(val_) ? 1 : 0);
+// }
 
 void printable_timer::print(std::ostream& os, const char* pos) const
 {
