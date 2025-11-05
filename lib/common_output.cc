@@ -72,9 +72,9 @@ static const argp_option options[] =
     { nullptr, 0, nullptr, 0, nullptr, 0 }
   };
 
-const struct argp output_argp = { options, parse_opt_output,
-                                  nullptr, nullptr, nullptr,
-                                  nullptr, nullptr };
+// const struct argp output_argp = { options, parse_opt_output,
+//                                   nullptr, nullptr, nullptr,
+//                                   nullptr, nullptr };
 
 static
 void
