@@ -48,32 +48,32 @@ bool full_parenth = false;
 bool escape_csv = false;
 char output_terminator = '\n';
 
-static const argp_option options[] =
-  {
-    { "full-parentheses", 'p', nullptr, 0,
-      "output fully-parenthesized formulas", -20 },
-    { "spin", 's', nullptr, 0, "output in Spin's syntax", -20 },
-    { "spot", OPT_SPOT, nullptr, 0, "output in Spot's syntax (default)", -20 },
-    { "lbt", 'l', nullptr, 0, "output in LBT's syntax", -20 },
-    { "wring", OPT_WRING, nullptr, 0, "output in Wring's syntax", -20 },
-    { "utf8", '8', nullptr, 0, "output using UTF-8 characters", -20 },
-    { "latex", OPT_LATEX, nullptr, 0, "output using LaTeX macros", -20 },
-    // --csv-escape was deprecated in Spot 2.1, we can remove it at
-    // some point
-    { "csv-escape", OPT_CSV, nullptr, OPTION_HIDDEN,
-      "quote the formula for use in a CSV file", -20 },
-    { "format", OPT_FORMAT, "FORMAT", 0,
-      "specify how each line should be output (default: \"%f\")", -20 },
-    { "stats", 0, nullptr, OPTION_ALIAS, nullptr, 0 },
-    { "output", 'o', "FORMAT", 0,
-      "send output to a file named FORMAT instead of standard output.  The"
-      " first formula sent to a file truncates it unless FORMAT starts"
-      " with '>>'.", 0 },
-    { "zero-terminated-output", '0', nullptr, 0,
-      "separate output formulas with \\0 instead of \\n "
-      "(for use with xargs -0)", 0 },
-    { nullptr, 0, nullptr, 0, nullptr, 0 }
-  };
+// static const argp_option options[] =
+//   {
+//     { "full-parentheses", 'p', nullptr, 0,
+//       "output fully-parenthesized formulas", -20 },
+//     { "spin", 's', nullptr, 0, "output in Spin's syntax", -20 },
+//     { "spot", OPT_SPOT, nullptr, 0, "output in Spot's syntax (default)", -20 },
+//     { "lbt", 'l', nullptr, 0, "output in LBT's syntax", -20 },
+//     { "wring", OPT_WRING, nullptr, 0, "output in Wring's syntax", -20 },
+//     { "utf8", '8', nullptr, 0, "output using UTF-8 characters", -20 },
+//     { "latex", OPT_LATEX, nullptr, 0, "output using LaTeX macros", -20 },
+//     // --csv-escape was deprecated in Spot 2.1, we can remove it at
+//     // some point
+//     { "csv-escape", OPT_CSV, nullptr, OPTION_HIDDEN,
+//       "quote the formula for use in a CSV file", -20 },
+//     { "format", OPT_FORMAT, "FORMAT", 0,
+//       "specify how each line should be output (default: \"%f\")", -20 },
+//     { "stats", 0, nullptr, OPTION_ALIAS, nullptr, 0 },
+//     { "output", 'o', "FORMAT", 0,
+//       "send output to a file named FORMAT instead of standard output.  The"
+//       " first formula sent to a file truncates it unless FORMAT starts"
+//       " with '>>'.", 0 },
+//     { "zero-terminated-output", '0', nullptr, 0,
+//       "separate output formulas with \\0 instead of \\n "
+//       "(for use with xargs -0)", 0 },
+//     { nullptr, 0, nullptr, 0, nullptr, 0 }
+//   };
 
 // const struct argp output_argp = { options, parse_opt_output,
 //                                   nullptr, nullptr, nullptr,
