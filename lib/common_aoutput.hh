@@ -39,20 +39,20 @@
 // The format to use in output_automaton()
 // extern automaton_format_t automaton_format;
 // Set to the argument of --name, else nullptr.
-extern const char* opt_name;
+// extern const char* opt_name;
 // Output options
-extern const struct argp aoutput_argp;
+// extern const struct argp aoutput_argp;
 
 // help text for %F and %L
 extern char F_doc[32];
 extern char L_doc[32];
 
 // FORMAT help text
-extern const struct argp aoutput_io_format_argp;
-extern const struct argp aoutput_o_format_argp;
+// extern const struct argp aoutput_io_format_argp;
+// extern const struct argp aoutput_o_format_argp;
 
 // Parse output options
-int parse_opt_aoutput(int key, char* arg, struct argp_state* state);
+// int parse_opt_aoutput(int key, char* arg, struct argp_state* state);
 
 
 enum stat_style { no_input, aut_input, ltl_input };

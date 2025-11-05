@@ -187,8 +187,8 @@ static const argp_option options[] =
     { nullptr, 0, nullptr, 0, nullptr, 0 }
   };
 
-const struct argp aoutput_argp = { options, parse_opt_aoutput, nullptr, nullptr,
-                                   nullptr, nullptr, nullptr };
+// const struct argp aoutput_argp = { options, parse_opt_aoutput, nullptr, nullptr,
+//                                    nullptr, nullptr, nullptr };
 
 // Those can be overridden by individual tools. E.g. randaut has no
 // notion of input file, so %F and %L represent something else.
