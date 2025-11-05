@@ -31,126 +31,126 @@ spot::postprocessor::output_type type = spot::postprocessor::TGBA;
 // spot::postprocessor::output_pref colored = spot::postprocessor::Any;
 // spot::postprocessor::optimization_level level = spot::postprocessor::High;
 
-bool level_set = false;
-bool pref_set = false;
+// bool level_set = false;
+// bool pref_set = false;
 
-enum {
-  OPT_COBUCHI = 256,
-  OPT_HIGH,
-  OPT_LOW,
-  OPT_MEDIUM,
-  OPT_SMALL,
-  OPT_TGBA,
-};
+// enum {
+//   OPT_COBUCHI = 256,
+//   OPT_HIGH,
+//   OPT_LOW,
+//   OPT_MEDIUM,
+//   OPT_SMALL,
+//   OPT_TGBA,
+// };
 
-static constexpr const argp_option options[] =
-  {
-    /**************************************************/
-    { nullptr, 0, nullptr, 0, "Output automaton type:", 2 },
-    { "generic", 'G', nullptr, 0,
-      "any acceptance condition is allowed", 0 },
-    { "tgba", OPT_TGBA, nullptr, 0,
-      "Transition-based Generalized Büchi Automaton (default)", 0 },
-    { "ba", 'B', nullptr, 0,
-      "Büchi Automaton (implies -S)", 0 },
-    { "monitor", 'M', nullptr, 0, "Monitor (accepts all finite prefixes "
-      "of the given property)", 0 },
-    { "complete", 'C', nullptr, 0, "output a complete automaton", 0 },
-    { "state-based-acceptance", 'S', nullptr, 0,
-      "define the acceptance using states", 0 },
-    { "sbacc", 0, nullptr, OPTION_ALIAS, nullptr, 0 },
-    { "parity", 'P',
-      "any|min|max|odd|even|min odd|min even|max odd|max even",
-      OPTION_ARG_OPTIONAL,
-      "automaton with parity acceptance", 0, },
-    { "colored-parity", 'p',
-      "any|min|max|odd|even|min odd|min even|max odd|max even",
-      OPTION_ARG_OPTIONAL,
-      "colored automaton with parity acceptance", 0, },
-    { "cobuchi", OPT_COBUCHI, nullptr, 0,
-      "automaton with co-Büchi acceptance (will recognize "
-      "a superset of the input language if not co-Büchi "
-      "realizable)", 0 },
-    { "coBuchi", 0, nullptr, OPTION_ALIAS, nullptr, 0 },
-    /**************************************************/
-    { nullptr, 0, nullptr, 0, "Simplification goal:", 20 },
-    { "small", OPT_SMALL, nullptr, 0, "prefer small automata (default)", 0 },
-    { "deterministic", 'D', nullptr, 0, "prefer deterministic automata "
-      "(combine with --generic to be sure to obtain a deterministic "
-      "automaton)", 0 },
-    { "any", 'a', nullptr, 0, "no preference, do not bother making it small "
-      "or deterministic", 0 },
-    /**************************************************/
-    { nullptr, 0, nullptr, 0, "Simplification level:", 21 },
-    { "low", OPT_LOW, nullptr, 0, "minimal optimizations (fast)", 0 },
-    { "medium", OPT_MEDIUM, nullptr, 0, "moderate optimizations", 0 },
-    { "high", OPT_HIGH, nullptr, 0,
-      "all available optimizations (slow, default)", 0 },
-    { nullptr, 0, nullptr, 0, nullptr, 0 }
-  };
+// static constexpr const argp_option options[] =
+//   {
+//     /**************************************************/
+//     { nullptr, 0, nullptr, 0, "Output automaton type:", 2 },
+//     { "generic", 'G', nullptr, 0,
+//       "any acceptance condition is allowed", 0 },
+//     { "tgba", OPT_TGBA, nullptr, 0,
+//       "Transition-based Generalized Büchi Automaton (default)", 0 },
+//     { "ba", 'B', nullptr, 0,
+//       "Büchi Automaton (implies -S)", 0 },
+//     { "monitor", 'M', nullptr, 0, "Monitor (accepts all finite prefixes "
+//       "of the given property)", 0 },
+//     { "complete", 'C', nullptr, 0, "output a complete automaton", 0 },
+//     { "state-based-acceptance", 'S', nullptr, 0,
+//       "define the acceptance using states", 0 },
+//     { "sbacc", 0, nullptr, OPTION_ALIAS, nullptr, 0 },
+//     { "parity", 'P',
+//       "any|min|max|odd|even|min odd|min even|max odd|max even",
+//       OPTION_ARG_OPTIONAL,
+//       "automaton with parity acceptance", 0, },
+//     { "colored-parity", 'p',
+//       "any|min|max|odd|even|min odd|min even|max odd|max even",
+//       OPTION_ARG_OPTIONAL,
+//       "colored automaton with parity acceptance", 0, },
+//     { "cobuchi", OPT_COBUCHI, nullptr, 0,
+//       "automaton with co-Büchi acceptance (will recognize "
+//       "a superset of the input language if not co-Büchi "
+//       "realizable)", 0 },
+//     { "coBuchi", 0, nullptr, OPTION_ALIAS, nullptr, 0 },
+//     /**************************************************/
+//     { nullptr, 0, nullptr, 0, "Simplification goal:", 20 },
+//     { "small", OPT_SMALL, nullptr, 0, "prefer small automata (default)", 0 },
+//     { "deterministic", 'D', nullptr, 0, "prefer deterministic automata "
+//       "(combine with --generic to be sure to obtain a deterministic "
+//       "automaton)", 0 },
+//     { "any", 'a', nullptr, 0, "no preference, do not bother making it small "
+//       "or deterministic", 0 },
+//     /**************************************************/
+//     { nullptr, 0, nullptr, 0, "Simplification level:", 21 },
+//     { "low", OPT_LOW, nullptr, 0, "minimal optimizations (fast)", 0 },
+//     { "medium", OPT_MEDIUM, nullptr, 0, "moderate optimizations", 0 },
+//     { "high", OPT_HIGH, nullptr, 0,
+//       "all available optimizations (slow, default)", 0 },
+//     { nullptr, 0, nullptr, 0, nullptr, 0 }
+//   };
 
-static constexpr const argp_option options_nooutput[] =
-  {
-    /**************************************************/
-    { nullptr, 0, nullptr, 0, "Simplification goal:", 20 },
-    { "small", OPT_SMALL, nullptr, 0, "prefer small automata (default)", 0 },
-    { "deterministic", 'D', nullptr, 0, "prefer deterministic automata", 0 },
-    { "any", 'a', nullptr, 0, "no preference, do not bother making it small "
-      "or deterministic", 0 },
-    /**************************************************/
-    { nullptr, 0, nullptr, 0, "Simplification level:", 21 },
-    { "low", OPT_LOW, nullptr, 0, "minimal optimizations (fast)", 0 },
-    { "medium", OPT_MEDIUM, nullptr, 0, "moderate optimizations", 0 },
-    { "high", OPT_HIGH, nullptr, 0,
-      "all available optimizations (slow, default)", 0 },
-    { nullptr, 0, nullptr, 0, nullptr, 0 }
-  };
+// static constexpr const argp_option options_nooutput[] =
+//   {
+//     /**************************************************/
+//     { nullptr, 0, nullptr, 0, "Simplification goal:", 20 },
+//     { "small", OPT_SMALL, nullptr, 0, "prefer small automata (default)", 0 },
+//     { "deterministic", 'D', nullptr, 0, "prefer deterministic automata", 0 },
+//     { "any", 'a', nullptr, 0, "no preference, do not bother making it small "
+//       "or deterministic", 0 },
+//     /**************************************************/
+//     { nullptr, 0, nullptr, 0, "Simplification level:", 21 },
+//     { "low", OPT_LOW, nullptr, 0, "minimal optimizations (fast)", 0 },
+//     { "medium", OPT_MEDIUM, nullptr, 0, "moderate optimizations", 0 },
+//     { "high", OPT_HIGH, nullptr, 0,
+//       "all available optimizations (slow, default)", 0 },
+//     { nullptr, 0, nullptr, 0, nullptr, 0 }
+//   };
 
-static const argp_option options_disabled[] =
-  {
-    /**************************************************/
-    { nullptr, 0, nullptr, 0, "Output automaton type:", 2 },
-    { "generic", 'G', nullptr, 0,
-      "any acceptance is allowed (default)", 0 },
-    { "tgba", OPT_TGBA, nullptr, 0,
-      "Transition-based Generalized Büchi Automaton", 0 },
-    { "ba", 'B', nullptr, 0,
-      "Büchi Automaton (with state-based acceptance)", 0 },
-    { "monitor", 'M', nullptr, 0, "Monitor (accepts all finite prefixes "
-      "of the given property)", 0 },
-    { "complete", 'C', nullptr, 0, "output a complete automaton", 0 },
-    { "state-based-acceptance", 'S', nullptr, 0,
-      "define the acceptance using states", 0 },
-    { "sbacc", 0, nullptr, OPTION_ALIAS, nullptr, 0 },
-    { "parity", 'P',
-      "any|min|max|odd|even|min odd|min even|max odd|max even",
-      OPTION_ARG_OPTIONAL,
-      "automaton with parity acceptance", 0, },
-    { "colored-parity", 'p',
-      "any|min|max|odd|even|min odd|min even|max odd|max even",
-      OPTION_ARG_OPTIONAL,
-      "colored automaton with parity acceptance", 0, },
-    { "cobuchi", OPT_COBUCHI, nullptr, 0,
-      "automaton with co-Büchi acceptance (will recognize "
-      "a superset of the input language if not co-Büchi "
-      "realizable)", 0 },
-    { "coBuchi", 0, nullptr, OPTION_ALIAS, nullptr, 0 },
-    /**************************************************/
-    { nullptr, 0, nullptr, 0, "Simplification goal:", 20 },
-    { "small", OPT_SMALL, nullptr, 0, "prefer small automata", 0 },
-    { "deterministic", 'D', nullptr, 0, "prefer deterministic automata "
-      "(combine with --generic to be sure to obtain a deterministic "
-      "automaton)", 0 },
-    { "any", 'a', nullptr, 0, "no preference, do not bother making it small "
-      "or deterministic", 0 },
-    /**************************************************/
-    { nullptr, 0, nullptr, 0, "Simplification level:", 21 },
-    { "low", OPT_LOW, nullptr, 0, "minimal optimizations (fast)", 0 },
-    { "medium", OPT_MEDIUM, nullptr, 0, "moderate optimizations", 0 },
-    { "high", OPT_HIGH, nullptr, 0,
-      "all available optimizations (slow)", 0 },
-    { nullptr, 0, nullptr, 0, nullptr, 0 }
-  };
+// static const argp_option options_disabled[] =
+//   {
+//     /**************************************************/
+//     { nullptr, 0, nullptr, 0, "Output automaton type:", 2 },
+//     { "generic", 'G', nullptr, 0,
+//       "any acceptance is allowed (default)", 0 },
+//     { "tgba", OPT_TGBA, nullptr, 0,
+//       "Transition-based Generalized Büchi Automaton", 0 },
+//     { "ba", 'B', nullptr, 0,
+//       "Büchi Automaton (with state-based acceptance)", 0 },
+//     { "monitor", 'M', nullptr, 0, "Monitor (accepts all finite prefixes "
+//       "of the given property)", 0 },
+//     { "complete", 'C', nullptr, 0, "output a complete automaton", 0 },
+//     { "state-based-acceptance", 'S', nullptr, 0,
+//       "define the acceptance using states", 0 },
+//     { "sbacc", 0, nullptr, OPTION_ALIAS, nullptr, 0 },
+//     { "parity", 'P',
+//       "any|min|max|odd|even|min odd|min even|max odd|max even",
+//       OPTION_ARG_OPTIONAL,
+//       "automaton with parity acceptance", 0, },
+//     { "colored-parity", 'p',
+//       "any|min|max|odd|even|min odd|min even|max odd|max even",
+//       OPTION_ARG_OPTIONAL,
+//       "colored automaton with parity acceptance", 0, },
+//     { "cobuchi", OPT_COBUCHI, nullptr, 0,
+//       "automaton with co-Büchi acceptance (will recognize "
+//       "a superset of the input language if not co-Büchi "
+//       "realizable)", 0 },
+//     { "coBuchi", 0, nullptr, OPTION_ALIAS, nullptr, 0 },
+//     /**************************************************/
+//     { nullptr, 0, nullptr, 0, "Simplification goal:", 20 },
+//     { "small", OPT_SMALL, nullptr, 0, "prefer small automata", 0 },
+//     { "deterministic", 'D', nullptr, 0, "prefer deterministic automata "
+//       "(combine with --generic to be sure to obtain a deterministic "
+//       "automaton)", 0 },
+//     { "any", 'a', nullptr, 0, "no preference, do not bother making it small "
+//       "or deterministic", 0 },
+//     /**************************************************/
+//     { nullptr, 0, nullptr, 0, "Simplification level:", 21 },
+//     { "low", OPT_LOW, nullptr, 0, "minimal optimizations (fast)", 0 },
+//     { "medium", OPT_MEDIUM, nullptr, 0, "moderate optimizations", 0 },
+//     { "high", OPT_HIGH, nullptr, 0,
+//       "all available optimizations (slow)", 0 },
+//     { nullptr, 0, nullptr, 0, nullptr, 0 }
+//   };
 
 // static int
 // parse_opt_post(int key, char* arg, struct argp_state*)
