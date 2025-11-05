@@ -14,7 +14,6 @@
 #include "argmatch.h"
 
 #include "common_aoutput.hh"
-#include "common_finput.hh"
 
 #include "aut_preprocessors.hh"
 
