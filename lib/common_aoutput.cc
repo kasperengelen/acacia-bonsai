@@ -41,6 +41,16 @@
 #include <spot/twaalgos/stutter.hh>
 #include <spot/twaalgos/isdet.hh>
 
+#define COMMON_X_OUTPUT_SPECS(where)                                    \
+"number of atomic propositions " #where "; "      \
+" add LETTERS to list atomic propositions with "                  \
+"(n) no quoting, "                                                \
+"(s) occasional double-quotes with C-style escape, "              \
+"(d) double-quotes with C-style escape, "                         \
+"(c) double-quotes with CSV-style escape, "                       \
+"(p) between parentheses, "                                       \
+"any extra non-alphanumeric character will be used to "           \
+"separate propositions"
 
 spot::postprocessor::output_type type = spot::postprocessor::TGBA;
 enum automaton_format_t {
