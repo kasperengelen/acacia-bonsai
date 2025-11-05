@@ -19,7 +19,6 @@
 
 #pragma once
 
-#include "common_sys.hh"
 #include <iosfwd>
 #include <fstream>
 #include <error.h>
