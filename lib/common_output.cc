@@ -399,46 +399,46 @@ output_formula(std::ostream& out,
     }
 }
 
-void
-output_formula_checked(spot::formula f, spot::process_timer* ptimer,
-                       const char* filename, const char* linenum,
-                       const char* prefix, const char* suffix)
-{
-  if (output_format == count_output)
-    {
-      if (outputnamer)
-        throw std::runtime_error
-          ("options --output and --count are incompatible");
-      return;
-    }
-  if (output_format == quiet_output)
-    return;
-  std::ostream* out = &std::cout;
-  if (outputnamer)
-    {
-      outputname.str("");
-      formula_with_location fl = { f, filename, linenum, prefix, suffix };
-      outputnamer->print(fl, ptimer);
-      std::string fname = outputname.str();
-      auto p = outputfiles.emplace(fname, nullptr);
-      if (p.second)
-        p.first->second.reset(new output_file(fname.c_str()));
-      out = &p.first->second->ostream();
-    }
-  output_formula(*out, f, ptimer, filename, linenum, prefix, suffix);
-  *out << output_terminator;
-  // Make sure we abort if we can't write to std::cout anymore
-  // (like disk full or broken pipe with SIGPIPE ignored).
-  check_cout();
-}
+// void
+// output_formula_checked(spot::formula f, spot::process_timer* ptimer,
+//                        const char* filename, const char* linenum,
+//                        const char* prefix, const char* suffix)
+// {
+//   if (output_format == count_output)
+//     {
+//       if (outputnamer)
+//         throw std::runtime_error
+//           ("options --output and --count are incompatible");
+//       return;
+//     }
+//   if (output_format == quiet_output)
+//     return;
+//   std::ostream* out = &std::cout;
+//   if (outputnamer)
+//     {
+//       outputname.str("");
+//       formula_with_location fl = { f, filename, linenum, prefix, suffix };
+//       outputnamer->print(fl, ptimer);
+//       std::string fname = outputname.str();
+//       auto p = outputfiles.emplace(fname, nullptr);
+//       if (p.second)
+//         p.first->second.reset(new output_file(fname.c_str()));
+//       out = &p.first->second->ostream();
+//     }
+//   output_formula(*out, f, ptimer, filename, linenum, prefix, suffix);
+//   *out << output_terminator;
+//   // Make sure we abort if we can't write to std::cout anymore
+//   // (like disk full or broken pipe with SIGPIPE ignored).
+//   check_cout();
+// }
 
-void output_formula_checked(spot::formula f,
-                            spot::process_timer* ptimer,
-                            const char* filename, int linenum,
-                            const char* prefix,
-                            const char* suffix)
-{
-  output_formula_checked(f, ptimer, filename,
-                         std::to_string(linenum).c_str(),
-                         prefix, suffix);
-}
+// void output_formula_checked(spot::formula f,
+//                             spot::process_timer* ptimer,
+//                             const char* filename, int linenum,
+//                             const char* prefix,
+//                             const char* suffix)
+// {
+//   output_formula_checked(f, ptimer, filename,
+//                          std::to_string(linenum).c_str(),
+//                          prefix, suffix);
+// }
