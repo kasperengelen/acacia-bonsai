@@ -28,12 +28,12 @@
 // extern const struct argp post_argp_nooutput; // no output option
 
 extern spot::postprocessor::output_type type;
-extern spot::postprocessor::output_pref pref;
-extern spot::postprocessor::output_pref comp;
-extern spot::postprocessor::output_pref sbacc;
-extern spot::postprocessor::output_pref colored;
-extern spot::postprocessor::optimization_level level;
+// extern spot::postprocessor::output_pref pref;
+// extern spot::postprocessor::output_pref comp;
+// extern spot::postprocessor::output_pref sbacc;
+// extern spot::postprocessor::output_pref colored;
+// extern spot::postprocessor::optimization_level level;
 // True if --low, --medium, or --high has been given
-extern bool level_set;
+// extern bool level_set;
 // True if --any, --small, or --deterministic has been given
-extern bool pref_set;
+// extern bool pref_set;
