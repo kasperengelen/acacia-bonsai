@@ -43,6 +43,15 @@
 
 
 spot::postprocessor::output_type type = spot::postprocessor::TGBA;
+enum automaton_format_t {
+  Dot,
+  Lbtt,
+  Spin,
+  Stats,
+  Hoa,
+  Quiet,
+  Count,
+};
 automaton_format_t automaton_format = Hoa;
 static const char* automaton_format_opt = nullptr;
 const char* opt_name = nullptr;

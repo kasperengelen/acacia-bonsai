@@ -34,18 +34,10 @@
 
 
 // Format for automaton output
-enum automaton_format_t {
-  Dot,
-  Lbtt,
-  Spin,
-  Stats,
-  Hoa,
-  Quiet,
-  Count,
-};
+
 
 // The format to use in output_automaton()
-extern automaton_format_t automaton_format;
+// extern automaton_format_t automaton_format;
 // Set to the argument of --name, else nullptr.
 extern const char* opt_name;
 // Output options
