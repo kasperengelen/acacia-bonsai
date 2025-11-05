@@ -40,6 +40,9 @@ enum {
   OPT_WRING,
 };
 
+enum output_format_t { spot_output, spin_output, utf8_output,
+                       lbt_output, wring_output, latex_output,
+                       quiet_output, count_output };
 output_format_t output_format = spot_output;
 bool full_parenth = false;
 bool escape_csv = false;

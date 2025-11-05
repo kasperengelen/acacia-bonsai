@@ -29,12 +29,10 @@
 #include <spot/misc/timer.hh>
 #include "common_file.hh"
 
-enum output_format_t { spot_output, spin_output, utf8_output,
-                       lbt_output, wring_output, latex_output,
-                       quiet_output, count_output };
-extern output_format_t output_format;
-extern bool full_parenth;
-extern bool escape_csv;
+
+// extern output_format_t output_format;
+// extern bool full_parenth;
+// extern bool escape_csv;
 
 #define COMMON_X_OUTPUT_SPECS(where)                                    \
       "number of atomic propositions " #where "; "      \
