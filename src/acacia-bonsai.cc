@@ -11,7 +11,7 @@
 
 #include <boost/algorithm/string.hpp>
 
-#include "common_aoutput.hh"
+// #include "common_aoutput.hh"
 // #include <fstream>
 
 #include "k-bounded_safety_aut.hh"
