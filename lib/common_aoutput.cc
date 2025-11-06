@@ -20,9 +20,9 @@
 #include "common_sys.hh"
 #include "error.h"
 #include "argmatch.h"
-#include "common_output.hh"
-#include "common_aoutput.hh"
-#include "common_post.hh"
+// #include "common_output.hh"
+// #include "common_aoutput.hh"
+// #include "common_post.hh"
 #include <spot/twaalgos/postproc.hh>
 #include "common_cout.hh"
 #include "common_setup.hh"
@@ -41,78 +41,78 @@
 #include <spot/twaalgos/stutter.hh>
 #include <spot/twaalgos/isdet.hh>
 
-#define COMMON_X_OUTPUT_SPECS(where)                                    \
-"number of atomic propositions " #where "; "      \
-" add LETTERS to list atomic propositions with "                  \
-"(n) no quoting, "                                                \
-"(s) occasional double-quotes with C-style escape, "              \
-"(d) double-quotes with C-style escape, "                         \
-"(c) double-quotes with CSV-style escape, "                       \
-"(p) between parentheses, "                                       \
-"any extra non-alphanumeric character will be used to "           \
-"separate propositions"
+// #define COMMON_X_OUTPUT_SPECS(where)                                    \
+// "number of atomic propositions " #where "; "      \
+// " add LETTERS to list atomic propositions with "                  \
+// "(n) no quoting, "                                                \
+// "(s) occasional double-quotes with C-style escape, "              \
+// "(d) double-quotes with C-style escape, "                         \
+// "(c) double-quotes with CSV-style escape, "                       \
+// "(p) between parentheses, "                                       \
+// "any extra non-alphanumeric character will be used to "           \
+// "separate propositions"
 
-spot::postprocessor::output_type type = spot::postprocessor::TGBA;
-enum automaton_format_t {
-  Dot,
-  Lbtt,
-  Spin,
-  Stats,
-  Hoa,
-  Quiet,
-  Count,
-};
-automaton_format_t automaton_format = Hoa;
-static const char* automaton_format_opt = nullptr;
-const char* opt_name = nullptr;
-static const char* opt_output = nullptr;
-static const char* stats = "";
-enum check_type
-  {
-    check_unambiguous = (1 << 0),
-    check_stutter = (1 << 1),
-    check_stutter_example = check_stutter | (1 << 2),
-    check_strength = (1 << 3),
-    check_semi_determinism = (1 << 4),
-    check_all = -1U,
-  };
-static char const *const check_args[] =
-  {
-    "unambiguous",
-    /* Before we added --check=stutter-sensitive-example,
-       --check=stutter used to unambiguously refer to
-       stutter-invariant. */
-    "stutter",
-    "stutter-invariant", "stuttering-invariant",
-    "stutter-insensitive", "stuttering-insensitive",
-    "stutter-sensitive", "stuttering-sensitive",
-    "stutter-sensitive-example", "stuttering-sensitive-example",
-    "strength", "weak", "terminal",
-    "semi-determinism", "semi-deterministic",
-    "all",
-    nullptr
-  };
-static check_type const check_types[] =
-  {
-    check_unambiguous,
-    check_stutter,
-    check_stutter, check_stutter,
-    check_stutter, check_stutter,
-    check_stutter, check_stutter,
-    check_stutter_example, check_stutter_example,
-    check_strength, check_strength, check_strength,
-    check_semi_determinism, check_semi_determinism,
-    check_all
-  };
-ARGMATCH_VERIFY(check_args, check_types);
-unsigned opt_check = 0U;
-
-enum {
-  OPT_LBTT = 1,
-  OPT_NAME,
-  OPT_STATS,
-  OPT_CHECK,
-};
+// spot::postprocessor::output_type type = spot::postprocessor::TGBA;
+// enum automaton_format_t {
+//   Dot,
+//   Lbtt,
+//   Spin,
+//   Stats,
+//   Hoa,
+//   Quiet,
+//   Count,
+// };
+// automaton_format_t automaton_format = Hoa;
+// static const char* automaton_format_opt = nullptr;
+// const char* opt_name = nullptr;
+// static const char* opt_output = nullptr;
+// static const char* stats = "";
+// enum check_type
+//   {
+//     check_unambiguous = (1 << 0),
+//     check_stutter = (1 << 1),
+//     check_stutter_example = check_stutter | (1 << 2),
+//     check_strength = (1 << 3),
+//     check_semi_determinism = (1 << 4),
+//     check_all = -1U,
+//   };
+// static char const *const check_args[] =
+//   {
+//     "unambiguous",
+//     /* Before we added --check=stutter-sensitive-example,
+//        --check=stutter used to unambiguously refer to
+//        stutter-invariant. */
+//     "stutter",
+//     "stutter-invariant", "stuttering-invariant",
+//     "stutter-insensitive", "stuttering-insensitive",
+//     "stutter-sensitive", "stuttering-sensitive",
+//     "stutter-sensitive-example", "stuttering-sensitive-example",
+//     "strength", "weak", "terminal",
+//     "semi-determinism", "semi-deterministic",
+//     "all",
+//     nullptr
+//   };
+// static check_type const check_types[] =
+//   {
+//     check_unambiguous,
+//     check_stutter,
+//     check_stutter, check_stutter,
+//     check_stutter, check_stutter,
+//     check_stutter, check_stutter,
+//     check_stutter_example, check_stutter_example,
+//     check_strength, check_strength, check_strength,
+//     check_semi_determinism, check_semi_determinism,
+//     check_all
+//   };
+// ARGMATCH_VERIFY(check_args, check_types);
+// unsigned opt_check = 0U;
+//
+// enum {
+//   OPT_LBTT = 1,
+//   OPT_NAME,
+//   OPT_STATS,
+//   OPT_CHECK,
+// };
 
 // static const argp_option options[] =
 //   {
@@ -705,17 +705,17 @@ enum {
 // }
 
 
-namespace
-{
-  static void percent_error(const char* beg, const char* pos)
-  {
-    std::ostringstream tmp;
-    const char* end = std::strchr(pos, ']');
-    tmp << "unknown option '" << *pos << "' in '%"
-        << std::string(beg, end + 2) << '\'';
-    throw std::runtime_error(tmp.str());
-  }
-}
+// namespace
+// {
+//   static void percent_error(const char* beg, const char* pos)
+//   {
+//     std::ostringstream tmp;
+//     const char* end = std::strchr(pos, ']');
+//     tmp << "unknown option '" << *pos << "' in '%"
+//         << std::string(beg, end + 2) << '\'';
+//     throw std::runtime_error(tmp.str());
+//   }
+// }
 
 // void printable_univbranch::print(std::ostream& os, const char* pos) const
 // {
@@ -809,68 +809,68 @@ namespace
 //   res = val_.cputime(user, system, children, parent);
 //   os << res / clocks_per_sec;
 // }
-
-void printable_varset::print(std::ostream& os, const char* pos) const
-{
-  if (*pos != '[')
-    {
-      os << val_.size();
-      return;
-    }
-  char qstyle = 's';            // quote style
-  bool parent = false;
-  std::string sep;
-
-  const char* beg = pos;
-  do
-    switch (int c = *++pos)
-      {
-      case 'p':
-        parent = true;
-        break;
-      case 'c':
-      case 'd':
-      case 's':
-      case 'n':
-        qstyle = c;
-        break;
-      case ']':
-        break;
-      default:
-        if (isalnum(c))
-          percent_error(beg, pos);
-        sep += c;
-      }
-  while (*pos != ']');
-
-  if (sep.empty())
-    sep = " ";
-
-  bool first = true;
-  for (auto f: val_)
-    {
-      if (first)
-        first = false;
-      else
-        os << sep;
-      if (parent)
-        os << '(';
-      switch (qstyle)
-        {
-        case 's':
-          os << f;
-          break;
-        case 'n':
-          os << f.ap_name();
-          break;
-        case 'd':
-          spot::escape_str(os << '"', f.ap_name()) << '"';
-          break;
-        case 'c':
-          spot::escape_rfc4180(os << '"', f.ap_name()) << '"';
-          break;
-        }
-      if (parent)
-        os << ')';
-    }
-}
+//
+// void printable_varset::print(std::ostream& os, const char* pos) const
+// {
+//   if (*pos != '[')
+//     {
+//       os << val_.size();
+//       return;
+//     }
+//   char qstyle = 's';            // quote style
+//   bool parent = false;
+//   std::string sep;
+//
+//   const char* beg = pos;
+//   do
+//     switch (int c = *++pos)
+//       {
+//       case 'p':
+//         parent = true;
+//         break;
+//       case 'c':
+//       case 'd':
+//       case 's':
+//       case 'n':
+//         qstyle = c;
+//         break;
+//       case ']':
+//         break;
+//       default:
+//         if (isalnum(c))
+//           percent_error(beg, pos);
+//         sep += c;
+//       }
+//   while (*pos != ']');
+//
+//   if (sep.empty())
+//     sep = " ";
+//
+//   bool first = true;
+//   for (auto f: val_)
+//     {
+//       if (first)
+//         first = false;
+//       else
+//         os << sep;
+//       if (parent)
+//         os << '(';
+//       switch (qstyle)
+//         {
+//         case 's':
+//           os << f;
+//           break;
+//         case 'n':
+//           os << f.ap_name();
+//           break;
+//         case 'd':
+//           spot::escape_str(os << '"', f.ap_name()) << '"';
+//           break;
+//         case 'c':
+//           spot::escape_rfc4180(os << '"', f.ap_name()) << '"';
+//           break;
+//         }
+//       if (parent)
+//         os << ')';
+//     }
+// }
