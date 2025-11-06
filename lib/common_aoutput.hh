@@ -19,18 +19,19 @@
 
 #pragma once
 
-#include "common_file.hh"
+// #include "common_file.hh"
 
-#include <argp.h>
-#include <memory>
-#include <spot/misc/timer.hh>
-#include <spot/parseaut/public.hh>
-#include <spot/twaalgos/gtec/gtec.hh>
-#include <spot/twaalgos/isdet.hh>
-#include <spot/twaalgos/sccinfo.hh>
-#include <spot/twaalgos/stats.hh>
-#include <spot/twaalgos/word.hh>
-#include <spot/tl/formula.hh>
+// #include <argp.h>
+// #include <memory>
+
+// #include <spot/misc/timer.hh>
+// #include <spot/parseaut/public.hh>
+// #include <spot/twaalgos/gtec/gtec.hh>
+// #include <spot/twaalgos/isdet.hh>
+// #include <spot/twaalgos/sccinfo.hh>
+// #include <spot/twaalgos/stats.hh>
+// #include <spot/twaalgos/word.hh>
+// #include <spot/tl/formula.hh>
 
 
 // Format for automaton output
@@ -58,70 +59,70 @@
 // enum stat_style { no_input, aut_input, ltl_input };
 
 
-struct printable_automaton final:
-  public spot::printable_value<spot::const_twa_graph_ptr>
-{
-  using spot::printable_value<spot::const_twa_graph_ptr>::operator=;
-  void print(std::ostream& os, const char* pos) const override;
-};
+// struct printable_automaton final:
+//   public spot::printable_value<spot::const_twa_graph_ptr>
+// {
+//   using spot::printable_value<spot::const_twa_graph_ptr>::operator=;
+//   void print(std::ostream& os, const char* pos) const override;
+// };
+//
+// struct printable_univbranch final:
+//   public spot::printable_value<spot::const_twa_graph_ptr>
+// {
+//   using spot::printable_value<spot::const_twa_graph_ptr>::operator=;
+//   void print(std::ostream& os, const char* pos) const override;
+// };
 
-struct printable_univbranch final:
-  public spot::printable_value<spot::const_twa_graph_ptr>
-{
-  using spot::printable_value<spot::const_twa_graph_ptr>::operator=;
-  void print(std::ostream& os, const char* pos) const override;
-};
 
+// struct printable_timer final: public spot::printable
+// {
+// protected:
+//   spot::process_timer val_;
+// public:
+//   printable_timer& operator=(const spot::process_timer& val)
+//   {
+//     val_ = val;
+//     return *this;
+//   }
+//
+//   void print(std::ostream& os, const char* pos) const override;
+// };
 
-struct printable_timer final: public spot::printable
-{
-protected:
-  spot::process_timer val_;
-public:
-  printable_timer& operator=(const spot::process_timer& val)
-  {
-    val_ = val;
-    return *this;
-  }
-
-  void print(std::ostream& os, const char* pos) const override;
-};
-
-struct printable_varset final: public spot::printable
-{
-protected:
-  std::vector<spot::formula> val_;
-  void sort()
-  {
-    std::sort(val_.begin(), val_.end(),
-              [](spot::formula f, spot::formula g)
-              {
-                return strverscmp(f.ap_name().c_str(), g.ap_name().c_str()) < 0;
-              });
-  }
-public:
-  void clear()
-  {
-    val_.clear();
-  }
-
-  template<class T>
-  void set(T begin, T end)
-  {
-    clear();
-    val_.insert(val_.end(), begin, end);
-    sort();
-  }
-
-  printable_varset& operator=(const std::vector<spot::formula>& val)
-  {
-    val_ = val;
-    sort();
-    return *this;
-  }
-
-  void print(std::ostream& os, const char* pos) const override;
-};
+// struct printable_varset final: public spot::printable
+// {
+// protected:
+//   std::vector<spot::formula> val_;
+//   void sort()
+//   {
+//     std::sort(val_.begin(), val_.end(),
+//               [](spot::formula f, spot::formula g)
+//               {
+//                 return strverscmp(f.ap_name().c_str(), g.ap_name().c_str()) < 0;
+//               });
+//   }
+// public:
+//   void clear()
+//   {
+//     val_.clear();
+//   }
+//
+//   template<class T>
+//   void set(T begin, T end)
+//   {
+//     clear();
+//     val_.insert(val_.end(), begin, end);
+//     sort();
+//   }
+//
+//   printable_varset& operator=(const std::vector<spot::formula>& val)
+//   {
+//     val_ = val;
+//     sort();
+//     return *this;
+//   }
+//
+//   void print(std::ostream& os, const char* pos) const override;
+// };
 
 /// \brief prints various statistics about a TGBA
 ///
