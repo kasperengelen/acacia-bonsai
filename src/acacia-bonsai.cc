@@ -167,7 +167,7 @@ int main (int argc, char **argv) {
     check_no_formula ();
 
     // Adjust the value of K
-    // TODO: move this upwards. By afterwards adjusting the KMIN global variable, this influenced the behaviour of various async code.
+    // TODO: moved this upwards. By afterwards adjusting the KMIN global variable, this influenced the behaviour of various async code.
     if (opt_Kmin == -1u)
       opt_Kmin = opt_K;
     if (opt_Kmin > opt_K or (opt_Kmin < opt_K and opt_Kinc == 0))

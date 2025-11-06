@@ -52,6 +52,7 @@ public:
 
   virtual ~job_processor();
 
+  // TODO: there will only be one such formula
   virtual int
   process_formula(spot::formula f,
                   const char* filename = nullptr, int linenum = 0) = 0;

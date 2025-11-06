@@ -6,6 +6,7 @@
 #include <spot/twaalgos/translate.hh>
 
 #include "common_aoutput.hh"
+// #include "common_file.hh"
 #include "common_finput.hh"
 #include "common_sys.hh"
 #include "composition/composition_mt.hh"
@@ -88,6 +89,7 @@ class ltl_processor final : public job_processor {
 
       // NOTE: Everything after this point plays a role
       // ONLY if there is MORE THAN ONE LTL formula
+      // TODO: purge everything after this.
       if (!check_real_) {
         utils::vout << "Error: can't do composition for unrealizability!\n";
         return 0;

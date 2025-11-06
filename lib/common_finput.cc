@@ -38,6 +38,7 @@ bool lenient = false;
 spot::parsed_formula
 parse_formula(const std::string& s)
 {
+  // TODO: only do infix
   if (lbt_input)
     return spot::parse_prefix_ltl(s);
   else
@@ -86,6 +87,7 @@ int
 job_processor::process_stream(std::istream& is,
                               const char* filename)
 {
+  // TODO: just read a single stream that has one single formula
   // TODO: this seems to a CSV parser?
   int error = 0;
   int linenum = 1;
@@ -258,6 +260,7 @@ job_processor::process_stream(std::istream& is,
 int
 job_processor::process_file(const char* filename)
 {
+  // TODO: only do stream, no file
   // Special case for stdin.
   if (filename[0] == '-' && filename[1] == 0)
     return process_stream(std::cin, filename);
