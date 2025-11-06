@@ -19,7 +19,8 @@
 
 #include "common_setup.hh"
 
-#include <error.h>
+// #include <error.h>
+#include "error_msg.hh"
 #include <cstdlib>
 #include <unistd.h>
 #include <iostream>

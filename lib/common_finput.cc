@@ -18,7 +18,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common_finput.hh"
-#include "error.h"
+// #include "error.h"
+#include "error_msg.hh"
 
 #include <fstream>
 #include <cstring>
