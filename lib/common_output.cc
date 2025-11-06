@@ -32,21 +32,21 @@
 #include "common_cout.hh"
 #include "error.h"
 
-enum {
-  OPT_CSV = 1,
-  OPT_FORMAT,
-  OPT_LATEX,
-  OPT_SPOT,
-  OPT_WRING,
-};
+// enum {
+//   OPT_CSV = 1,
+//   OPT_FORMAT,
+//   OPT_LATEX,
+//   OPT_SPOT,
+//   OPT_WRING,
+// };
 
-enum output_format_t { spot_output, spin_output, utf8_output,
-                       lbt_output, wring_output, latex_output,
-                       quiet_output, count_output };
-output_format_t output_format = spot_output;
-bool full_parenth = false;
-bool escape_csv = false;
-char output_terminator = '\n';
+// enum output_format_t { spot_output, spin_output, utf8_output,
+//                        lbt_output, wring_output, latex_output,
+//                        quiet_output, count_output };
+// output_format_t output_format = spot_output;
+// bool full_parenth = false;
+// bool escape_csv = false;
+// char output_terminator = '\n';
 
 // static const argp_option options[] =
 //   {
@@ -79,231 +79,231 @@ char output_terminator = '\n';
 //                                   nullptr, nullptr, nullptr,
 //                                   nullptr, nullptr };
 
-static
-void
-report_not_ltl(spot::formula f,
-               const char* filename, const char* linenum, const char* syn)
-{
-  std::string s = spot::str_psl(f);
-  static const char msg[] =
-    "formula '%s' cannot be written in %s's syntax because it is not LTL";
-  if (filename)
-    error_at_line(2, 0, filename, atoi(linenum), msg, s.c_str(), syn);
-  else
-    error(2, 0, msg, s.c_str(), syn);
-}
+// static
+// void
+// report_not_ltl(spot::formula f,
+//                const char* filename, const char* linenum, const char* syn)
+// {
+//   std::string s = spot::str_psl(f);
+//   static const char msg[] =
+//     "formula '%s' cannot be written in %s's syntax because it is not LTL";
+//   if (filename)
+//     error_at_line(2, 0, filename, atoi(linenum), msg, s.c_str(), syn);
+//   else
+//     error(2, 0, msg, s.c_str(), syn);
+// }
 
-std::ostream&
-stream_formula(std::ostream& out,
-               spot::formula f, const char* filename,
-               const char* linenum)
-{
-  switch (output_format)
-    {
-    case lbt_output:
-      if (f.is_ltl_formula())
-        spot::print_lbt_ltl(out, f);
-      else
-        report_not_ltl(f, filename, linenum, "LBT");
-      break;
-    case spot_output:
-      spot::print_psl(out, f, full_parenth);
-      break;
-    case spin_output:
-      if (f.is_ltl_formula())
-        spot::print_spin_ltl(out, f, full_parenth);
-      else
-        report_not_ltl(f, filename, linenum, "Spin");
-      break;
-    case wring_output:
-      if (f.is_ltl_formula())
-        spot::print_wring_ltl(out, f);
-      else
-        report_not_ltl(f, filename, linenum, "Wring");
-      break;
-    case utf8_output:
-      spot::print_utf8_psl(out, f, full_parenth);
-      break;
-    case latex_output:
-      spot::print_latex_psl(out, f, full_parenth);
-      break;
-    case count_output:
-    case quiet_output:
-      break;
-    }
-  return out;
-}
+// std::ostream&
+// stream_formula(std::ostream& out,
+//                spot::formula f, const char* filename,
+//                const char* linenum)
+// {
+//   switch (output_format)
+//     {
+//     case lbt_output:
+//       if (f.is_ltl_formula())
+//         spot::print_lbt_ltl(out, f);
+//       else
+//         report_not_ltl(f, filename, linenum, "LBT");
+//       break;
+//     case spot_output:
+//       spot::print_psl(out, f, full_parenth);
+//       break;
+//     case spin_output:
+//       if (f.is_ltl_formula())
+//         spot::print_spin_ltl(out, f, full_parenth);
+//       else
+//         report_not_ltl(f, filename, linenum, "Spin");
+//       break;
+//     case wring_output:
+//       if (f.is_ltl_formula())
+//         spot::print_wring_ltl(out, f);
+//       else
+//         report_not_ltl(f, filename, linenum, "Wring");
+//       break;
+//     case utf8_output:
+//       spot::print_utf8_psl(out, f, full_parenth);
+//       break;
+//     case latex_output:
+//       spot::print_latex_psl(out, f, full_parenth);
+//       break;
+//     case count_output:
+//     case quiet_output:
+//       break;
+//     }
+//   return out;
+// }
 
-static void
-stream_escapable_formula(std::ostream& os,
-                         spot::formula f,
-                         const char* filename,
-                         const char* linenum)
-{
-  if (escape_csv)
-    {
-      std::ostringstream out;
-      stream_formula(out, f, filename, linenum);
-      os << '"';
-      spot::escape_rfc4180(os, out.str());
-      os << '"';
-    }
-  else
-    {
-      stream_formula(os, f, filename, linenum);
-    }
-}
+// static void
+// stream_escapable_formula(std::ostream& os,
+//                          spot::formula f,
+//                          const char* filename,
+//                          const char* linenum)
+// {
+//   if (escape_csv)
+//     {
+//       std::ostringstream out;
+//       stream_formula(out, f, filename, linenum);
+//       os << '"';
+//       spot::escape_rfc4180(os, out.str());
+//       os << '"';
+//     }
+//   else
+//     {
+//       stream_formula(os, f, filename, linenum);
+//     }
+// }
 
 
-namespace
-{
-  struct formula_with_location
-  {
-    spot::formula f;
-    const char* filename;
-    const char* line;
-    const char* prefix;
-    const char* suffix;
-  };
+// namespace
+// {
+  // struct formula_with_location
+  // {
+  //   spot::formula f;
+  //   const char* filename;
+  //   const char* line;
+  //   const char* prefix;
+  //   const char* suffix;
+  // };
+  //
+  // class printable_formula_class final:
+  //   public spot::printable_value<char>
+  // {
+  // public:
+  //   printable_formula_class&
+  //   operator=(char new_val)
+  //   {
+  //     val_ = new_val;
+  //     return *this;
+  //   }
+  //
+  //   virtual void
+  //   print(std::ostream& os, const char* opt) const override
+  //   {
+  //     if (*opt == '[')
+  //       os << spot::mp_class(val_, opt + 1);
+  //     else
+  //       os << val_;
+  //   }
+  // };
 
-  class printable_formula_class final:
-    public spot::printable_value<char>
-  {
-  public:
-    printable_formula_class&
-    operator=(char new_val)
-    {
-      val_ = new_val;
-      return *this;
-    }
+  // class printable_formula_nesting final:
+  //   public spot::printable_value<spot::formula>
+  // {
+  // public:
+  //   printable_formula_nesting&
+  //   operator=(spot::formula new_val)
+  //   {
+  //     val_ = new_val;
+  //     return *this;
+  //   }
+  //
+  //   virtual void
+  //   print(std::ostream& os, const char* opt) const override
+  //   {
+  //     if (*opt == '[' && opt[1] != ']')
+  //       os << spot::nesting_depth(val_, opt + 1);
+  //     else
+  //       throw std::runtime_error("%n expects arguments, e.g. %[X]n");
+  //   }
+  // };
 
-    virtual void
-    print(std::ostream& os, const char* opt) const override
-    {
-      if (*opt == '[')
-        os << spot::mp_class(val_, opt + 1);
-      else
-        os << val_;
-    }
-  };
-
-  class printable_formula_nesting final:
-    public spot::printable_value<spot::formula>
-  {
-  public:
-    printable_formula_nesting&
-    operator=(spot::formula new_val)
-    {
-      val_ = new_val;
-      return *this;
-    }
-
-    virtual void
-    print(std::ostream& os, const char* opt) const override
-    {
-      if (*opt == '[' && opt[1] != ']')
-        os << spot::nesting_depth(val_, opt + 1);
-      else
-        throw std::runtime_error("%n expects arguments, e.g. %[X]n");
-    }
-  };
-
-  class printable_formula_with_location final:
-    public spot::printable_value<const formula_with_location*>
-  {
-  public:
-    printable_formula_with_location&
-    operator=(const formula_with_location* new_val)
-    {
-      val_ = new_val;
-      return *this;
-    }
-
-    virtual void
-    print(std::ostream& os, const char*) const override
-    {
-      stream_escapable_formula(os, val_->f, val_->filename, val_->line);
-    }
-  };
-
-  class formula_printer final: protected spot::formater
-  {
-  public:
-    formula_printer(std::ostream& os, const char* format)
-      : format_(format)
-    {
-      declare('a', &ap_);       // deprecated in 2.3.2
-      declare('b', &bool_size_);
-      declare('f', &fl_);
-      declare('F', &filename_);
-      declare('R', &timer_);
-      declare('r', &timer_);
-      declare('L', &line_);
-      declare('s', &size_);
-      declare('h', &class_);
-      declare('n', &nesting_);
-      declare('x', &ap_);
-      declare('<', &prefix_);
-      declare('>', &suffix_);
-      set_output(os);
-      prime(format);
-    }
-
-    std::ostream&
-    print(const formula_with_location& fl, spot::process_timer* ptimer)
-    {
-      if (has('R') || has('r'))
-        timer_ = *ptimer;
-
-      fl_ = &fl;
-      filename_ = fl.filename ? fl.filename : "";
-      line_ = fl.line;
-      prefix_ = fl.prefix ? fl.prefix : "";
-      suffix_ = fl.suffix ? fl.suffix : "";
-      auto f = fl_.val()->f;
-      if (has('a') || has('x'))
-        {
-          auto s = spot::atomic_prop_collect(f);
-          ap_.set(s->begin(), s->end());
-          delete s;
-        }
-      if (has('b'))
-        bool_size_ = spot::length_boolone(f);
-      if (has('s'))
-        size_ = spot::length(f);
-      if (has('h'))
-        class_ = spot::mp_class(f);
-      nesting_ = f;
-      auto& res = format(format_);
-      // Make sure we do not store the formula until the next one is
-      // printed, as the order in which APs are registered may
-      // influence the automata output.
-      fl_ = nullptr;
-      nesting_ = nullptr;
-      ap_.clear();
-      return res;
-    }
-
-  private:
-    const char* format_;
-    printable_formula_with_location fl_;
-    printable_timer timer_;
-    spot::printable_value<const char*> filename_;
-    spot::printable_value<const char*> line_;
-    spot::printable_value<const char*> prefix_;
-    spot::printable_value<const char*> suffix_;
-    spot::printable_value<int> size_;
-    printable_formula_class class_;
-    printable_formula_nesting nesting_;
-    spot::printable_value<int> bool_size_;
-    printable_varset ap_;
-  };
-}
-
-static formula_printer* format = nullptr;
-static std::ostringstream outputname;
-static formula_printer* outputnamer = nullptr;
-static std::map<std::string, std::unique_ptr<output_file>> outputfiles;
+//   class printable_formula_with_location final:
+//     public spot::printable_value<const formula_with_location*>
+//   {
+//   public:
+//     printable_formula_with_location&
+//     operator=(const formula_with_location* new_val)
+//     {
+//       val_ = new_val;
+//       return *this;
+//     }
+//
+//     virtual void
+//     print(std::ostream& os, const char*) const override
+//     {
+//       stream_escapable_formula(os, val_->f, val_->filename, val_->line);
+//     }
+//   };
+//
+//   class formula_printer final: protected spot::formater
+//   {
+//   public:
+//     formula_printer(std::ostream& os, const char* format)
+//       : format_(format)
+//     {
+//       declare('a', &ap_);       // deprecated in 2.3.2
+//       declare('b', &bool_size_);
+//       declare('f', &fl_);
+//       declare('F', &filename_);
+//       declare('R', &timer_);
+//       declare('r', &timer_);
+//       declare('L', &line_);
+//       declare('s', &size_);
+//       declare('h', &class_);
+//       declare('n', &nesting_);
+//       declare('x', &ap_);
+//       declare('<', &prefix_);
+//       declare('>', &suffix_);
+//       set_output(os);
+//       prime(format);
+//     }
+//
+//     std::ostream&
+//     print(const formula_with_location& fl, spot::process_timer* ptimer)
+//     {
+//       if (has('R') || has('r'))
+//         timer_ = *ptimer;
+//
+//       fl_ = &fl;
+//       filename_ = fl.filename ? fl.filename : "";
+//       line_ = fl.line;
+//       prefix_ = fl.prefix ? fl.prefix : "";
+//       suffix_ = fl.suffix ? fl.suffix : "";
+//       auto f = fl_.val()->f;
+//       if (has('a') || has('x'))
+//         {
+//           auto s = spot::atomic_prop_collect(f);
+//           ap_.set(s->begin(), s->end());
+//           delete s;
+//         }
+//       if (has('b'))
+//         bool_size_ = spot::length_boolone(f);
+//       if (has('s'))
+//         size_ = spot::length(f);
+//       if (has('h'))
+//         class_ = spot::mp_class(f);
+//       nesting_ = f;
+//       auto& res = format(format_);
+//       // Make sure we do not store the formula until the next one is
+//       // printed, as the order in which APs are registered may
+//       // influence the automata output.
+//       fl_ = nullptr;
+//       nesting_ = nullptr;
+//       ap_.clear();
+//       return res;
+//     }
+//
+//   private:
+//     const char* format_;
+//     printable_formula_with_location fl_;
+//     printable_timer timer_;
+//     spot::printable_value<const char*> filename_;
+//     spot::printable_value<const char*> line_;
+//     spot::printable_value<const char*> prefix_;
+//     spot::printable_value<const char*> suffix_;
+//     spot::printable_value<int> size_;
+//     printable_formula_class class_;
+//     printable_formula_nesting nesting_;
+//     spot::printable_value<int> bool_size_;
+//     printable_varset ap_;
+//   };
+// }
+//
+// static formula_printer* format = nullptr;
+// static std::ostringstream outputname;
+// static formula_printer* outputnamer = nullptr;
+// static std::map<std::string, std::unique_ptr<output_file>> outputfiles;
 
 // int
 // parse_opt_output(int key, char* arg, struct argp_state*)
@@ -355,49 +355,49 @@ static std::map<std::string, std::unique_ptr<output_file>> outputfiles;
 // }
 
 
-static void
-output_formula(std::ostream& out,
-               spot::formula f, spot::process_timer* ptimer,
-               const char* filename, const char* linenum,
-               const char* prefix, const char* suffix)
-{
-  if (!format)
-    {
-      if (prefix)
-        out << prefix << ',';
-      // For backward compatibility, we still run
-      // stream_escapable_formula when --csv-escape has been given.
-      // But eventually --csv-escape should be removed, and the
-      // formula printed raw.
-      if ((prefix || suffix) && !escape_csv)
-        {
-          std::ostringstream tmp;
-          stream_formula(tmp, f, filename, linenum);
-          std::string tmpstr = tmp.str();
-          if (tmpstr.find_first_of("\",") != std::string::npos)
-            {
-              out << '"';
-              spot::escape_rfc4180(out, tmpstr);
-              out << '"';
-            }
-          else
-            {
-              out << tmpstr;
-            }
-        }
-      else
-        {
-          stream_escapable_formula(out, f, filename, linenum);
-        }
-      if (suffix)
-        out << ',' << suffix;
-    }
-  else
-    {
-      formula_with_location fl = { f, filename, linenum, prefix, suffix };
-      format->print(fl, ptimer);
-    }
-}
+// static void
+// output_formula(std::ostream& out,
+//                spot::formula f, spot::process_timer* ptimer,
+//                const char* filename, const char* linenum,
+//                const char* prefix, const char* suffix)
+// {
+//   if (!format)
+//     {
+//       if (prefix)
+//         out << prefix << ',';
+//       // For backward compatibility, we still run
+//       // stream_escapable_formula when --csv-escape has been given.
+//       // But eventually --csv-escape should be removed, and the
+//       // formula printed raw.
+//       if ((prefix || suffix) && !escape_csv)
+//         {
+//           std::ostringstream tmp;
+//           stream_formula(tmp, f, filename, linenum);
+//           std::string tmpstr = tmp.str();
+//           if (tmpstr.find_first_of("\",") != std::string::npos)
+//             {
+//               out << '"';
+//               spot::escape_rfc4180(out, tmpstr);
+//               out << '"';
+//             }
+//           else
+//             {
+//               out << tmpstr;
+//             }
+//         }
+//       else
+//         {
+//           stream_escapable_formula(out, f, filename, linenum);
+//         }
+//       if (suffix)
+//         out << ',' << suffix;
+//     }
+//   else
+//     {
+//       formula_with_location fl = { f, filename, linenum, prefix, suffix };
+//       format->print(fl, ptimer);
+//     }
+// }
 
 // void
 // output_formula_checked(spot::formula f, spot::process_timer* ptimer,
