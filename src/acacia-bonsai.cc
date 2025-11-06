@@ -30,6 +30,7 @@
 #include <spot/misc/bddlt.hh>
 #include <spot/misc/escape.hh>
 #include <spot/misc/timer.hh>
+#include <spot/misc/tmpfile.hh>
 #include <spot/tl/formula.hh>
 #include <spot/twa/twagraph.hh>
 #include <spot/twaalgos/aiger.hh>
@@ -45,8 +46,6 @@
 #include <spot/twaalgos/toparity.hh>
 #include <spot/twaalgos/hoa.hh>
 
-
-#include "common_setup.hh"
 
 using namespace std::literals;
 
@@ -141,6 +140,29 @@ void process_args_(const ArgParseResult& arg_vals) {
 }
 
 
+static void sig_handler(int sig)
+{
+  spot::cleanup_tmpfiles();
+  // Send the signal again, this time to the default handler, so that
+  // we return a meaningful error code.
+  raise(sig);
+}
+
+static void setup_sig_handler()
+{
+  struct sigaction sa;
+  sa.sa_handler = sig_handler;
+  sigemptyset(&sa.sa_mask);
+  sa.sa_flags = SA_RESETHAND;
+  // Catch termination signals, so we can cleanup temporary files.
+  sigaction(SIGALRM, &sa, nullptr);
+  sigaction(SIGHUP, &sa, nullptr);
+  sigaction(SIGINT, &sa, nullptr);
+  sigaction(SIGPIPE, &sa, nullptr);
+  sigaction(SIGQUIT, &sa, nullptr);
+  sigaction(SIGTERM, &sa, nullptr);
+}
+
 
 int main (int argc, char **argv) {
 
@@ -154,7 +176,12 @@ int main (int argc, char **argv) {
   sigaction (SIGTERM, &action, NULL);
   sigaction (SIGINT, &action, NULL);
 
-  return protected_main (argv, [&] {
+
+  // remove all spot temporary files
+  setup_sig_handler(); // in case of a signal
+  atexit(spot::cleanup_tmpfiles); // in case of exit
+
+  try {
     // These options play a role in twaalgos.
     extra_options.set ("simul", 0);
     extra_options.set ("ba-simul", 0);
@@ -239,5 +266,12 @@ int main (int argc, char **argv) {
     }
     std::cout << "UNKNOWN\n";
     return 3;
-  });
+  }
+  catch (const std::exception& e)
+  {
+    error(2, 0, "%s", e.what());
+  }
+  catch (...) {
+    error(2, 0, "Unknown exception");
+  }
 }
