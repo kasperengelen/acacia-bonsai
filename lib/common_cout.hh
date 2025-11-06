@@ -18,6 +18,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
-
-void check_cout();
-void flush_cout();
+//
+// void check_cout();
+// void flush_cout();
