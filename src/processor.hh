@@ -5,10 +5,10 @@
 
 #include <spot/twaalgos/translate.hh>
 
-#include "common_aoutput.hh"
+// #include "common_aoutput.hh"
 // #include "common_file.hh"
-#include "common_finput.hh"
-#include "common_sys.hh"
+#include "common_finput.hh" // OK
+// #include "common_sys.hh"
 #include "composition/composition_mt.hh"
 
 
