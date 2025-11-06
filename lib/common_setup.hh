@@ -19,7 +19,6 @@
 
 #pragma once
 
-// #include "common_sys.hh"
 #include <functional>
 
 void setup(char** progname);

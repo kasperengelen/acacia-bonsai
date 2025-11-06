@@ -5,7 +5,7 @@ common_sources = [
   'common_finput.cc',
  # 'common_output.cc',
   #'common_post.cc',
-  'common_r.cc',
+ # 'common_r.cc',
   'common_setup.cc',
 ]
 

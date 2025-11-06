@@ -18,7 +18,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common_setup.hh"
-// #include "common_aoutput.hh"
 
 #include <error.h>
 #include <cstdlib>
