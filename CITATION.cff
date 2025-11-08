@@ -1,21 +1,30 @@
-@inproceedings{DBLP:conf/tacas/CadilhacP23,
-  author       = {Micha{\"{e}}l Cadilhac and
-                  Guillermo A. P{\'{e}}rez},
-  editor       = {Sriram Sankaranarayanan and
-                  Natasha Sharygina},
-  title        = {Acacia-Bonsai: {A} Modern Implementation of Downset-Based {LTL} Realizability},
-  booktitle    = {Tools and Algorithms for the Construction and Analysis of Systems
-                  - 29th International Conference, {TACAS} 2023, Held as Part of the
-                  European Joint Conferences on Theory and Practice of Software, {ETAPS}
-                  2022, Paris, France, April 22-27, 2023, Proceedings, Part {II}},
-  series       = {Lecture Notes in Computer Science},
-  volume       = {13994},
-  pages        = {192--207},
-  publisher    = {Springer},
-  year         = {2023},
-  url          = {https://doi.org/10.1007/978-3-031-30820-8\_14},
-  doi          = {10.1007/978-3-031-30820-8\_14},
-  timestamp    = {Sat, 29 Apr 2023 19:25:03 +0200},
-  biburl       = {https://dblp.org/rec/conf/tacas/CadilhacP23.bib},
-  bibsource    = {dblp computer science bibliography, https://dblp.org}
-}
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Cadilhac"
+  given-names: "Michaël"
+  orcid: "https://orcid.org/0000-0001-9828-9129"
+- family-names: "Pérez"
+  given-names: "Guillermo A."
+  orcid: "https://orcid.org/0000-0002-1200-4952"
+title: "Acacia-Bonsai"
+url: "https://github.com/gaperez64/acacia-bonsai"
+preferred-citation:
+  type: conference-paper
+  authors:
+  - family-names: "Cadilhac"
+    given-names: "Michaël"
+    orcid: "https://orcid.org/0000-0001-9828-9129"
+  - family-names: "Pérez"
+    given-names: "Guillermo A."
+    orcid: "https://orcid.org/0000-0002-1200-4952"
+  doi: "10.1007/978-3-031-30820-8_14"
+  booktitle: "TACAS"
+  series: "LNCS"
+  publisher: "Springer"
+  editor: "Sriram Sankaranarayanan and Natasha Sharygina"
+  start: 192 # First page number
+  end: 207 # Last page number
+  title: "Acacia-Bonsai: A Modern Implementation of Downset-Based LTL Realizability"
+  volume: 13994
+  year: 2023
