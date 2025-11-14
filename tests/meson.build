@@ -1,4 +1,3 @@
-subdir ('spot-bin')
 subdir ('acacia-plus')
 
 fs = import ('fs')
