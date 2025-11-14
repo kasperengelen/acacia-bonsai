@@ -1,4 +1,4 @@
-#include <config.h>
+// #include <config.h>
 #include <memory>
 #include <string>
 #include <sstream>
@@ -10,15 +10,6 @@
 #include <sys/wait.h>
 
 #include <boost/algorithm/string.hpp>
-
-#include "argmatch.h"
-
-#include "common_aoutput.hh"
-#include "common_finput.hh"
-#include "common_setup.hh"
-#include "common_sys.hh"
-
-#include "aut_preprocessors.hh"
 
 #include "k-bounded_safety_aut.hh"
 
@@ -34,10 +25,12 @@
 
 #include "configuration.hh"
 #include "composition/composition_mt.hh"
+#include "processor.hh"
 
 #include <spot/misc/bddlt.hh>
 #include <spot/misc/escape.hh>
 #include <spot/misc/timer.hh>
+#include <spot/misc/tmpfile.hh>
 #include <spot/tl/formula.hh>
 #include <spot/twa/twagraph.hh>
 #include <spot/twaalgos/aiger.hh>
@@ -52,6 +45,7 @@
 #include <spot/twaalgos/split.hh>
 #include <spot/twaalgos/toparity.hh>
 #include <spot/twaalgos/hoa.hh>
+
 
 using namespace std::literals;
 
@@ -96,92 +90,6 @@ utils::voutstream utils::vout;
 
 size_t posets::vectors::bool_threshold = 0;
 size_t posets::vectors::bitset_threshold = 0;
-
-namespace {
-
-  class ltl_processor final : public job_processor {
-    private:
-      spot::translator &trans_;
-      std::vector<std::string> input_aps_;
-      std::vector<std::string> output_aps_;
-      std::vector<spot::formula> formulas;
-
-      spot::bdd_dict_ptr dict;
-
-    public:
-
-      ltl_processor (spot::translator &trans,
-                     std::vector<std::string> input_aps_,
-                     std::vector<std::string> output_aps_,
-                     spot::bdd_dict_ptr dict_)
-        : trans_ (trans), input_aps_ (input_aps_), output_aps_ (output_aps_), dict (dict_) {
-      }
-
-      int process_formula (spot::formula f, const char *, int) override {
-        formulas.push_back (f);
-        return 0;
-      }
-
-      int run () override {
-        // call base class ::run which adds the formulas passed with -f to the vector
-        job_processor::run ();
-
-        if (formulas.empty ()) {
-          utils::vout << "Pass a formula!\n";
-          return 0;
-        }
-
-        // manually register inputs/outputs
-        bdd all_inputs = bddtrue;
-        bdd all_outputs = bddtrue;
-
-        for(std::string ap: input_aps) {
-          unsigned v = dict->register_proposition (spot::formula::ap (ap), this);
-          all_inputs &= bdd_ithvar (v);
-        }
-        for(std::string ap: output_aps) {
-          unsigned v = dict->register_proposition (spot::formula::ap (ap), this);
-          all_outputs &= bdd_ithvar (v);
-        }
-
-        composition_mt composer (opt_K, opt_Kmin, opt_Kinc, dict, trans_, all_inputs, all_outputs, input_aps_, output_aps_,
-                                 init_state);
-
-        if (formulas.size () == 1) {
-          // one formula: don't make subprocesses, do everything here by calling the functions directly
-          return composer.run_one (formulas[0], synth_fname, winreg_fname, check_real, opt_unreal_x);
-        }
-
-        // NOTE: Everything after this point plays a role
-        // ONLY if there is MORE THAN ONE LTL formula
-        if (!check_real) {
-          utils::vout << "Error: can't do composition for unrealizability!\n";
-          return 0;
-        }
-
-        if (init_state.size () > 0) {
-          utils::vout << "Error: can't do composition with given initial state!\n";
-          return 0;
-        }
-
-        if (opt_Kinc != 0) {
-          utils::vout << "Error: can't do composition with incrementing K values!\n";
-          return 0;
-        }
-
-        for(spot::formula& f: formulas) {
-          composer.add_formula (f);
-        }
-
-        return composer.run (workers, synth_fname, winreg_fname);
-      }
-
-      ~ltl_processor () override {
-        dict->unregister_all_my_variables (this);
-      }
-  };
-}
-
 
 void terminate (int signum) {
   if (getpgid (0) == getpid ()) { // Main process
@@ -231,6 +139,31 @@ void process_args_(const ArgParseResult& arg_vals) {
   }
 }
 
+
+static void sig_handler(int sig)
+{
+  spot::cleanup_tmpfiles();
+  // Send the signal again, this time to the default handler, so that
+  // we return a meaningful error code.
+  raise(sig);
+}
+
+static void setup_sig_handler()
+{
+  struct sigaction sa;
+  sa.sa_handler = sig_handler;
+  sigemptyset(&sa.sa_mask);
+  sa.sa_flags = SA_RESETHAND;
+  // Catch termination signals, so we can cleanup temporary files.
+  sigaction(SIGALRM, &sa, nullptr);
+  sigaction(SIGHUP, &sa, nullptr);
+  sigaction(SIGINT, &sa, nullptr);
+  sigaction(SIGPIPE, &sa, nullptr);
+  sigaction(SIGQUIT, &sa, nullptr);
+  sigaction(SIGTERM, &sa, nullptr);
+}
+
+
 int main (int argc, char **argv) {
 
   // use boost to parse all arguments that were passed
@@ -243,7 +176,12 @@ int main (int argc, char **argv) {
   sigaction (SIGTERM, &action, NULL);
   sigaction (SIGINT, &action, NULL);
 
-  return protected_main (argv, [&] {
+
+  // remove all spot temporary files
+  setup_sig_handler(); // in case of a signal
+  atexit(spot::cleanup_tmpfiles); // in case of exit
+
+  try {
     // These options play a role in twaalgos.
     extra_options.set ("simul", 0);
     extra_options.set ("ba-simul", 0);
@@ -255,22 +193,26 @@ int main (int argc, char **argv) {
 
     check_no_formula ();
 
-    // Setup the dictionary now, so that BuDDy's initialization is
-    // not measured in our timings.
-    spot::bdd_dict_ptr dict = spot::make_bdd_dict ();
-    spot::translator trans (dict, &extra_options);
-    ltl_processor processor (trans, input_aps, output_aps, dict);
-
-    // Diagnose unused -x options
-    extra_options.report_unused_options ();
-
     // Adjust the value of K
+    // TODO: moved this upwards. By afterwards adjusting the KMIN global variable, this influenced the behaviour of various async code.
     if (opt_Kmin == -1u)
       opt_Kmin = opt_K;
     if (opt_Kmin > opt_K or (opt_Kmin < opt_K and opt_Kinc == 0))
       error (3, 0, "Incompatible values for K, Kmin, and Kinc.");
     if (opt_Kmin == 0)
       opt_Kmin = opt_K;
+
+    // Setup the dictionary now, so that BuDDy's initialization is
+    // not measured in our timings.
+    spot::bdd_dict_ptr dict = spot::make_bdd_dict ();
+    spot::translator trans (dict, &extra_options);
+    ltl_processor processor (trans, input_aps, output_aps, dict, synth_fname, winreg_fname, check_real,
+      opt_unreal_x, workers, opt_K, opt_Kmin, opt_Kinc, init_state);
+
+    // Diagnose unused -x options
+    extra_options.report_unused_options ();
+
+
 
     const auto start_proc = [&] (bool real, unreal_x_t unreal_x) {
       if (fork () == 0) {
@@ -324,5 +266,12 @@ int main (int argc, char **argv) {
     }
     std::cout << "UNKNOWN\n";
     return 3;
-  });
+  }
+  catch (const std::exception& e)
+  {
+    error(2, 0, "%s", e.what());
+  }
+  catch (...) {
+    error(2, 0, "Unknown exception");
+  }
 }

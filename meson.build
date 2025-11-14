@@ -15,7 +15,6 @@ add_global_arguments (extra_args, language: 'cpp')
 spot_dep = dependency ('libspot')
 bddx_dep = dependency ('libbddx')
 boost_dep = dependency ('boost', modules: ['program_options'])
-gnulib_dep = dependency ('gnulib')
 posets_dep = dependency ('posets')
 
 cpp = meson.get_compiler('cpp')

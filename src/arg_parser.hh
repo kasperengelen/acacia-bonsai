@@ -1,7 +1,8 @@
 #pragma once
 
 #include <boost/program_options.hpp>
-#include <error.h>
+// #include <error.h>
+#include "error_msg.hh"
 #include <configuration.hh>
 
 // NOTE: the do...while is a macro trick to prevent this from being a compound statement.

@@ -18,9 +18,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common_finput.hh"
-#include "common_setup.hh"
-#include "progname.h"
-#include "error.h"
+// #include "error.h"
+#include "error_msg.hh"
 
 #include <fstream>
 #include <cstring>
@@ -33,81 +32,13 @@ enum {
 
 jobs_t jobs;
 bool lbt_input = false;
-// static bool lenient = false;
-bool lenient = false; // TODO: this was changed to make this var accessible from the outside, might break things
+bool lenient = false;
 
-// TODO: remove
-// static const argp_option options[] =
-//   {
-//     { nullptr, 0, nullptr, 0, "Input options:", 1 },
-//     { "formula", 'f', "STRING", 0, "process the formula STRING", 0 },
-//     { "file", 'F', "FILENAME[/COL]", 0,
-//       "process each line of FILENAME as a formula; if COL is a "
-//       "positive integer, assume a CSV file and read column COL; use "
-//       "a negative COL to drop the first line of the CSV file", 0 },
-//     { "lbt-input", OPT_LBT, nullptr, 0,
-//       "read all formulas using LBT's prefix syntax", 0 },
-//     { "lenient", OPT_LENIENT, nullptr, 0,
-//       "parenthesized blocks that cannot be parsed as subformulas "
-//       "are considered as atomic properties", 0 },
-//     { nullptr, 0, nullptr, 0, nullptr, 0 }
-//   };
-
-// TODO: remove
-// const struct argp finput_argp = { options, parse_opt_finput,
-//                                   nullptr, nullptr, nullptr,
-//                                   nullptr, nullptr };
-//
-// const struct argp finput_argp_headless = { options + 1, parse_opt_finput,
-//                                            nullptr, nullptr, nullptr,
-//                                            nullptr, nullptr };
-
-
-// TODO: temporary
-// void handle_finput_args(const ArgParseResult& arg_vals) {
-//   lbt_input = arg_vals.lbt_input;
-//   lenient = arg_vals.lenient;
-//   if (arg_vals.is_file) {
-//     jobs.emplace_back(arg_vals.formula.c_str(), true);
-//   } else {
-//     jobs.emplace_back(arg_vals.formula.c_str(), false);
-//   }
-// }
-
-
-// TODO: merge this into the new argument parser, and handle the arguments the same way.
-//  one problem will be the global vars in this compilation unit. So there will, temporarily, have to be
-//  a "handle arg values" functions there as well.
-// int
-// parse_opt_finput(int key, char* arg, struct argp_state*)
-// {
-//   // Called from C code, so should not raise any exception.
-//   BEGIN_EXCEPTION_PROTECT;
-//   // This switch is alphabetically-ordered.
-//   switch (key)
-//     {
-//     case 'f':
-//       jobs.emplace_back(arg, false);
-//       break;
-//     case 'F':
-//       jobs.emplace_back(arg, true);
-//       break;
-//     case OPT_LBT:
-//       lbt_input = true;
-//       break;
-//     case OPT_LENIENT:
-//       lenient = true;
-//       break;
-//     default:
-//       return ARGP_ERR_UNKNOWN;
-//     }
-//   END_EXCEPTION_PROTECT;
-//   return 0;
-// }
 
 spot::parsed_formula
 parse_formula(const std::string& s)
 {
+  // TODO: only do infix
   if (lbt_input)
     return spot::parse_prefix_ltl(s);
   else
@@ -146,13 +77,18 @@ job_processor::process_string(const std::string& input,
       pf.format_errors(std::cerr);
       return 1;
     }
+  // TODO: this is a virtual method. It is overridden in the ltl_processor.
   return process_formula(pf.f, filename, linenum);
 }
 
+
+// TODO: figure out what this does. Can we just use the SPOT parser for this?
 int
 job_processor::process_stream(std::istream& is,
                               const char* filename)
 {
+  // TODO: just read a single stream that has one single formula
+  // TODO: this seems to a CSV parser?
   int error = 0;
   int linenum = 1;
   std::string line;
@@ -324,6 +260,7 @@ job_processor::process_stream(std::istream& is,
 int
 job_processor::process_file(const char* filename)
 {
+  // TODO: only do stream, no file
   // Special case for stdin.
   if (filename[0] == '-' && filename[1] == 0)
     return process_stream(std::cin, filename);
@@ -392,9 +329,9 @@ void check_no_formula()
   if (!jobs.empty())
     return;
   if (isatty(STDIN_FILENO))
-    error(2, 0, "No formula to translate?  Run '%s --help' for help.\n"
-          "Use '%s -' to force reading formulas from the standard "
-          "input.", program_name, program_name);
+    error(2, 0, "No formula to translate?  Run '--help' for help.\n"
+          "Use '-' to force reading formulas from the standard "
+          "input.");
   jobs.emplace_back("-", true);
 }
 
@@ -403,8 +340,8 @@ void check_no_automaton()
   if (!jobs.empty())
     return;
   if (isatty(STDIN_FILENO))
-    error(2, 0, "No automaton to process?  Run '%s --help' for help.\n"
-          "Use '%s -' to force reading automata from the standard "
-          "input.", program_name, program_name);
+    error(2, 0, "No automaton to process?  Run '--help' for help.\n"
+          "Use '-' to force reading automata from the standard "
+          "input.");
   jobs.emplace_back("-", true);
 }
